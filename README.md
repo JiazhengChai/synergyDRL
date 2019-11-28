@@ -1,1 +1,1 @@
-# synergy_DRL
+# synergyDRL
