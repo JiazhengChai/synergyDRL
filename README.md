@@ -44,15 +44,16 @@ conda remove --name synergy_analysis --all
 ```
 
 ## To run and reproduce our results:
+While in the folder ${synergyDRL_PATH}, with the virtual environment synergy_analysis activated, 
 1) ./HC_experiments_all_commands.sh
 2) ./HeavyHC_experiments_all_commands.sh
 3) ./FC_experiments_all_commands.sh
 4) ./summary_graphs_results_production.sh
 5) ./extract_synergy_pattern.sh
 
-Users must run 1),2),3) before 4). Users are also encouraged to further parallelize the command lines in 1),2),3) to speed up the training and action collection of the three agents. The whole experiments take tremendous of time.
+Users must run 1),2),3) before 4) and 5). Users are also encouraged to further parallelize the command lines in 1),2),3) to speed up the training and action collection of the three agents. The whole experiments take tremendous of time.
 
-The results after running 1),2),3),4) are in "experiments_results" in the synergy_analysis codebase.
+The results after running 1),2),3),4),5) are in "experiments_results" in the synergy_analysis codebase.
 
 
 
