@@ -26,7 +26,7 @@ cd ${synergyDRL_PATH}
 conda env create -f environment.yml
 conda activate synergy_analysis
 cd ..
-pip install -e ${synergy_analysis_PATH}
+pip install -e ${synergyDRL_PATH}
 ```
 
 The environment should be ready to run experiments. 
