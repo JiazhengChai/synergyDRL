@@ -43,7 +43,7 @@ conda deactivate
 conda remove --name synergy_analysis --all
 ```
 
-##To run and reproduce our results:
+## To run and reproduce our results:
 1) ./HC_experiments_all_commands.sh
 2) ./HeavyHC_experiments_all_commands.sh
 3) ./FC_experiments_all_commands.sh
