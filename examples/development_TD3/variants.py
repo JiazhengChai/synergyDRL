@@ -1,0 +1,342 @@
+from ray import tune
+import numpy as np
+
+from softlearning.misc.utils import  deep_update
+
+
+M=256
+M2=256
+REPARAMETERIZE = True
+
+NUM_COUPLING_LAYERS = 2
+
+GAUSSIAN_POLICY_PARAMS_BASE = {
+    'type': 'GaussianPolicy',
+    'kwargs': {
+        'hidden_layer_sizes': (M, M),
+        'squash': True,
+    }
+}
+
+
+
+DETERMINISTICS_POLICY_PARAMS_BASE = {
+    'type': 'DeterministicsPolicy',
+    'kwargs': {
+        'hidden_layer_sizes': (M, M2),
+        'squash': True
+    }
+}
+
+
+
+GAUSSIAN_POLICY_PARAMS_FOR_DOMAIN = {}
+
+
+
+DETERMINISTICS_POLICY_PARAMS_FOR_DOMAIN = {}
+
+
+POLICY_PARAMS_BASE = {
+    'GaussianPolicy': GAUSSIAN_POLICY_PARAMS_BASE,
+    'DeterministicsPolicy': DETERMINISTICS_POLICY_PARAMS_BASE,
+
+}
+
+POLICY_PARAMS_BASE.update({
+    'gaussian': POLICY_PARAMS_BASE['GaussianPolicy'],
+
+    'deterministicsPolicy': POLICY_PARAMS_BASE['DeterministicsPolicy'],
+
+})
+
+POLICY_PARAMS_FOR_DOMAIN = {
+    'GaussianPolicy': GAUSSIAN_POLICY_PARAMS_FOR_DOMAIN,
+
+    'DeterministicsPolicy': DETERMINISTICS_POLICY_PARAMS_FOR_DOMAIN,
+
+}
+
+POLICY_PARAMS_FOR_DOMAIN.update({
+    'gaussian': POLICY_PARAMS_FOR_DOMAIN['GaussianPolicy'],
+
+    'deterministicsPolicy': POLICY_PARAMS_FOR_DOMAIN['DeterministicsPolicy'],
+
+})
+
+DEFAULT_MAX_PATH_LENGTH = 1000
+MAX_PATH_LENGTH_PER_DOMAIN = {
+    'Point2DEnv': 50,
+    'Pendulum': 200,
+}
+
+ALGORITHM_PARAMS_BASE = {
+    'type': 'SAC',
+
+    'kwargs': {
+        'epoch_length': 1000,
+        'train_every_n_steps': 1,
+        'n_train_repeat': 1,
+        'eval_render_mode': None,
+        'eval_n_episodes': 3,
+        'eval_deterministic': True,
+
+        'discount': 0.99,
+        'tau': 5e-3,
+        'reward_scale': 1.0,
+    }
+}
+
+
+ALGORITHM_PARAMS_ADDITIONAL = {
+    'SAC': {
+        'type': 'SAC',
+        'kwargs': {
+            'reparameterize': REPARAMETERIZE,
+            'lr': 3e-4,
+            'target_update_interval': 1,
+            'tau': 5e-3,
+            'target_entropy': 'auto',
+            'store_extra_policy_info': False,
+            'action_prior': 'uniform',
+            'n_initial_exploration_steps': int(1e3),
+        }
+    },
+
+    'TD3': {
+        'type': 'TD3',
+        'kwargs': {
+            'reparameterize': REPARAMETERIZE,
+            'lr': 1e-3,
+            'target_update_interval': 2,
+            'tau': 5e-3,
+            'store_extra_policy_info': False,
+            'action_prior': 'uniform',
+            'n_initial_exploration_steps': int(1e4),#int(1e3)
+        }
+    },
+
+}
+
+DEFAULT_NUM_EPOCHS = 200
+
+NUM_EPOCHS_PER_DOMAIN = {
+    'Swimmer': int(3e2),
+    'Hopper': int(1e3),
+    'HalfCheetah': int(3e3),
+    'HalfCheetahHeavy':int(3e3),
+    'Giraffe': int(2e3),
+    'Centripede':int(2e3),
+    'FullCheetah':int(3e3),
+    'Walker2d': int(1e3),
+    'Ant': int(2e3),
+    'AntHeavy': int(2e3),
+    'Humanoid': int(5e3),#int(1e4),
+    'Humanoidrllab': int(3e3),#int(1e4),
+    'Pusher2d': int(2e3),
+    'HandManipulatePen': int(1e4),
+    'HandManipulateEgg': int(1e4),
+    'HandManipulateBlock': int(1e4),
+    'HandReach': int(1e4),
+    'Point2DEnv': int(200),
+    'Reacher': int(200),
+    'Pendulum': 10,
+}
+
+ALGORITHM_PARAMS_PER_DOMAIN = {
+    **{
+        domain: {
+            'kwargs': {
+                'n_epochs': NUM_EPOCHS_PER_DOMAIN.get(
+                    domain, DEFAULT_NUM_EPOCHS),
+                'n_initial_exploration_steps': (
+                    MAX_PATH_LENGTH_PER_DOMAIN.get(
+                        domain, DEFAULT_MAX_PATH_LENGTH
+                    ) * 10),
+            }
+        } for domain in NUM_EPOCHS_PER_DOMAIN
+    }
+}
+
+ENV_PARAMS = {
+
+    'HalfCheetahHeavy': {  # 6 DoF
+        'Energy0-v0': {
+            'forward_reward_weight':1.0,
+            'ctrl_cost_weight':0.1,
+            'energy_weights':0,
+        },
+    },
+
+    'FullCheetah': {  # 6 DoF
+        'Energy0-v0': {
+            'forward_reward_weight':1.0,
+            'ctrl_cost_weight':0.1,
+            'energy_weights':0,
+        },
+
+    },
+    'HalfCheetah': {  # 6 DoF
+        'EnergySix-v0': {
+            'forward_reward_weight':1.0,
+            'ctrl_cost_weight':0.1,
+            'energy_weights':6.0,
+
+        },
+        'EnergyFour-v0': {
+            'forward_reward_weight':1.0,
+            'ctrl_cost_weight':0.1,
+            'energy_weights':4.0,
+
+        },
+        'EnergyTwo-v0': {
+            'forward_reward_weight':1.0,
+            'ctrl_cost_weight':0.1,
+            'energy_weights':2.0,
+        },
+        'EnergyOnePoint5-v0': {
+            'forward_reward_weight':1.0,
+            'ctrl_cost_weight':0.1,
+            'energy_weights':1.5,
+        },
+        'EnergyOne-v0': {
+            'forward_reward_weight':1.0,
+            'ctrl_cost_weight':0.1,
+            'energy_weights':1.,
+        },
+        'EnergyPoint5-v0': {
+            'forward_reward_weight':1.0,
+            'ctrl_cost_weight':0.1,
+            'energy_weights':0.5,
+        },
+        'EnergyPoint1-v0': {
+            'forward_reward_weight':1.0,
+            'ctrl_cost_weight':0.1,
+            'energy_weights':0.1,
+        },
+        'Energy0-v0': {
+            'forward_reward_weight':1.0,
+            'ctrl_cost_weight':0.1,
+            'energy_weights':0,
+        },
+
+    },
+
+}
+
+NUM_CHECKPOINTS = 10
+
+
+def get_variant_spec_base(universe, domain, task, policy, algorithm):
+    algorithm_params = deep_update(
+        ALGORITHM_PARAMS_BASE,
+        ALGORITHM_PARAMS_PER_DOMAIN.get(domain, {})
+    )
+    algorithm_params = deep_update(
+        algorithm_params,
+        ALGORITHM_PARAMS_ADDITIONAL.get(algorithm, {})
+    )
+    variant_spec = {
+        'domain': domain,
+        'task': task,
+        'universe': universe,
+
+        'env_params': ENV_PARAMS.get(domain, {}).get(task, {}),
+        'policy_params': deep_update(
+            POLICY_PARAMS_BASE[policy],
+            POLICY_PARAMS_FOR_DOMAIN[policy].get(domain, {})
+        ),
+        'Q_params': {
+            'type': 'double_feedforward_Q_function',
+            'kwargs': {
+                'hidden_layer_sizes': (M,M2),
+            }
+        },
+        'algorithm_params': algorithm_params,
+        'replay_pool_params': {
+            'type': 'SimpleReplayPool',
+            'kwargs': {
+                'max_size': tune.sample_from(lambda spec: (
+                    {
+                        'SimpleReplayPool': int(1e6),
+                        'TrajectoryReplayPool': int(1e4),
+                    }.get(
+                        spec.get('config', spec)
+                        ['replay_pool_params']
+                        ['type'],
+                        int(1e6))
+                )),
+            }
+        },
+        'sampler_params': {
+            'type': 'SimpleSampler',
+            'kwargs': {
+                'max_path_length': MAX_PATH_LENGTH_PER_DOMAIN.get(
+                    domain, DEFAULT_MAX_PATH_LENGTH),
+                'min_pool_size': MAX_PATH_LENGTH_PER_DOMAIN.get(
+                    domain, DEFAULT_MAX_PATH_LENGTH),
+                'batch_size': 256,
+            }
+        },
+        'run_params': {
+            'seed': tune.sample_from(
+                lambda spec: np.random.randint(0, 10000)),
+            'checkpoint_at_end': True,
+            'checkpoint_frequency': NUM_EPOCHS_PER_DOMAIN.get(
+                domain, DEFAULT_NUM_EPOCHS) // NUM_CHECKPOINTS,
+            'checkpoint_replay_pool': False,
+        },
+    }
+
+    return variant_spec
+
+
+def get_variant_spec_image(universe,
+                           domain,
+                           task,
+                           policy,
+                           algorithm,
+                           *args,
+                           **kwargs):
+    variant_spec = get_variant_spec_base(
+        universe, domain, task, policy, algorithm, *args, **kwargs)
+
+    if 'image' in task.lower() or 'image' in domain.lower():
+        preprocessor_params = {
+            'type': 'convnet_preprocessor',
+            'kwargs': {
+                'image_shape': variant_spec['env_params']['image_shape'],
+                'output_size': M,
+                'conv_filters': (4, 4),
+                'conv_kernel_sizes': ((3, 3), (3, 3)),
+                'pool_type': 'MaxPool2D',
+                'pool_sizes': ((2, 2), (2, 2)),
+                'pool_strides': (2, 2),
+                'dense_hidden_layer_sizes': (),
+            },
+        }
+        variant_spec['policy_params']['kwargs']['preprocessor_params'] = (
+            preprocessor_params.copy())
+        variant_spec['Q_params']['kwargs']['preprocessor_params'] = (
+            preprocessor_params.copy())
+
+    return variant_spec
+
+
+def get_variant_spec(args):
+    universe, domain, task = args.universe, args.domain, args.task
+
+    if ('image' in task.lower()
+        or 'blind' in task.lower()
+        or 'image' in domain.lower()):
+        variant_spec = get_variant_spec_image(
+            universe, domain, task, args.policy, args.algorithm)
+    else:
+        variant_spec = get_variant_spec_base(
+            universe, domain, task, args.policy, args.algorithm)
+
+    if args.checkpoint_replay_pool is not None:
+        variant_spec['run_params']['checkpoint_replay_pool'] = (
+            args.checkpoint_replay_pool)
+
+    return variant_spec
