@@ -44,7 +44,7 @@ conda remove --name synergy_analysis --all
 ```
 
 ## To run and reproduce our results:
-While in the folder ${synergyDRL_PATH}, with the virtual environment synergy_analysis activated, 
+While in the folder synergyDRL, with the virtual environment synergy_analysis activated, 
 1) ./HC_experiments_all_commands.sh
 2) ./HeavyHC_experiments_all_commands.sh
 3) ./FC_experiments_all_commands.sh
