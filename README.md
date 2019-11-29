@@ -16,7 +16,11 @@ The codes run in Linux operating system. The experiments can be run locally usin
 1. On the home directory ~, create folder .mujoco 
 2. [Download](https://www.roboti.us/index.html) and unzip MuJoCo 1.50 from the MuJoCo website. We assume that the MuJoCo files are extracted to the default location (`~/.mujoco/mjpro150`).
 3. Copy your MuJoCo license key (mjkey.txt) to ~/.mujoco/mjpro150/bin
-4. source ~/.bashrc
+4. Add the following line to .bashrc
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/tmp/.mujoco/mjpro150/bin
+
+5. source ~/.bashrc
 
 ### Conda Setup
 5. Install [Conda](https://www.anaconda.com/distribution/) with python version 3. Please choose 'yes' for conda init option at the end of installation.
