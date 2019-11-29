@@ -66,7 +66,7 @@ The results after running 1),2),3),4),5) are in "experiments_results" in the syn
 
 
 
-## Details from the original softlearning codebase(Extra, not necessary)
+## Details from the original softlearning codebase(Extra information, not obligatory)
 ### Training an agent
 1. To train the agent
 ```
