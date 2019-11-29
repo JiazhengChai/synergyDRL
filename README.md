@@ -18,7 +18,7 @@ The environment can be run locally using conda. For conda installation, you need
 2. Copy your MuJoCo license key (mjke
 y.txt) to ~/.mujoco/mjkey.txt:
 
-3. Unzip codebase `synergyDRL`
+3. Git clone codebase `synergyDRL`
 
 4. Create and activate conda environment, install softlearning to enable command line interface.
 ```
