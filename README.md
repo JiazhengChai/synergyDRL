@@ -9,7 +9,7 @@ Author of modification: Chai Jiazheng e-mail:chai.jiazheng.q1@dc.tohoku.ac.jp
 
 ## Prerequisites
 
-The environment can be run locally using conda. For conda installation, you need to have [Conda](https://conda.io/docs/user-guide/install/index.html) installed. Also, our environments currently require a [MuJoCo](https://www.roboti.us/license.html) license.
+The environment can be run locally using conda. For conda installation, you need to have [Conda](https://www.anaconda.com/distribution/) installed. Also, our environments currently require a [MuJoCo](https://www.roboti.us/license.html) license.
 
 ## Conda Installation
 
