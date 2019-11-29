@@ -34,6 +34,7 @@ The codes run in Linux operating system. The experiments can be run locally usin
 
 ### Move custome Mujoco files
 15. Inside synergyDRL folder, there is a folder named MUJOCO_FILES. Copy the contents inside 'assets' in MUJOCO_FILES folder to the 'assets' in ~/anaconda3/envs/synergy_analysis/lib/python3.6/site-packages/gym/envs/mujoco
+
 COMMAND: cp MUJOCO_FILES/assets/* ~/anaconda3/envs/synergy_analysis/lib/python3.6/site-packages/gym/envs/mujoco/assets
 
 ### Finish
@@ -127,7 +128,7 @@ optional arguments:
 The algorithms are based on the following papers:
 
 *Motor Synergy Development in High-performing Deep Reinforcement Learning algorithms*.</br>
-Jiazheng Chai, Mitsuhiro Hayashibe*.</br>
+Jiazheng Chai, Mitsuhiro Hayashibe.</br>
 
 *Soft Actor-Critic Algorithms and Applications*.</br>
 Tuomas Haarnoja*, Aurick Zhou*, Kristian Hartikainen*, George Tucker, Sehoon Ha, Jie Tan, Vikash Kumar, Henry Zhu, Abhishek Gupta, Pieter Abbeel, and Sergey Levine.
