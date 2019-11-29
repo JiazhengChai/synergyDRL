@@ -23,7 +23,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/username/.mujoco/mjpro150/bin
 5. source ~/.bashrc
 
 ### Conda Setup
-6. Install [Conda](https://www.anaconda.com/distribution/) with python version 3. Please choose 'yes' for conda init option at the end of installation.
+6. Install [Conda](https://www.anaconda.com/distribution/) with python version 3. **Please choose 'yes' for conda init option at the end of installation.**
 7. source ~/.bashrc
 8. conda install lockfile (required in experiments)
 
