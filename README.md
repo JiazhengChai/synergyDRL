@@ -36,7 +36,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/username/.mujoco/mjpro150/bin
 14. ```pip install -e synergyDRL```
 15. ```cd synergyDRL```
 
-### Move custome Mujoco files
+### (IMPORTANT) Move custom Mujoco files
 16. Inside synergyDRL folder, there is a folder named MUJOCO_FILES. Copy the contents inside 'assets' in MUJOCO_FILES folder to the 'assets' in ~/anaconda3/envs/synergy_analysis/lib/python3.6/site-packages/gym/envs/mujoco
 
 COMMAND: cp MUJOCO_FILES/assets/* ~/anaconda3/envs/synergy_analysis/lib/python3.6/site-packages/gym/envs/mujoco/assets
