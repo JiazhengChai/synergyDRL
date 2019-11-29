@@ -9,42 +9,46 @@ Author of modification: Chai Jiazheng e-mail:chai.jiazheng.q1@dc.tohoku.ac.jp
 
 ## Prerequisites
 
-The environment can be run locally using conda. For conda installation, you need to have [Conda](https://www.anaconda.com/distribution/) installed. Also, our environments currently require a [MuJoCo](https://www.roboti.us/license.html) license.
+The codes run in Linux operating system. The experiments can be run locally using conda. For conda installation, you need to have [Conda](https://www.anaconda.com/distribution/) installed. Also, our environments currently require a [MuJoCo](https://www.roboti.us/license.html) license.
 
-## Conda Installation
+## Step by step Installation
+### Mujoco Setup
+1. On the home directory ~, create folder .mujoco 
+2. [Download](https://www.roboti.us/index.html) and unzip MuJoCo 1.50 from the MuJoCo website. We assume that the MuJoCo files are extracted to the default location (`~/.mujoco/mjpro150`).
+3. Copy your MuJoCo license key (mjkey.txt) to ~/.mujoco/mjpro150/bin
+4. source ~/.bashrc
 
-1. [Download](https://www.roboti.us/index.html) and install MuJoCo 1.50/2.0 from the MuJoCo website. We assume that the MuJoCo files are extracted to the default location (`~/.mujoco/mjpro150`) or (`~/.mujoco/mujoco200`) .
+### Conda Setup
+5. Install [Conda](https://www.anaconda.com/distribution/) with python version 3. Please choose 'yes' for conda init option at the end of installation.
+6. source ~/.bashrc
+7. conda install lockfile (required in experiments)
 
-2. Copy your MuJoCo license key (mjke
-y.txt) to ~/.mujoco/mjkey.txt:
+### Codebase Setup
+8. git clone this codebase `synergyDRL`
+9. ```cd synergyDRL```
+10. ```conda env create -f environment.yml```
+11.  ```conda activate synergy_analysis```
+12. ```cd ..```
+13. ```pip install -e synergyDRL```
+14. ```cd synergyDRL```
 
-3. Git clone codebase `synergyDRL`
+### Move custome Mujoco files
+15. Inside synergyDRL folder, there is a folder named MUJOCO_FILES. Copy the contents inside 'assets' in MUJOCO_FILES folder to the 'assets' in ~/anaconda3/envs/synergy_analysis/lib/python3.6/site-packages/gym/envs/mujoco
+COMMAND: cp MUJOCO_FILES/assets/* ~/anaconda3/envs/synergy_analysis/lib/python3.6/site-packages/gym/envs/mujoco/assets
 
-4. Create and activate conda environment, install softlearning to enable command line interface.
-```
-cd ${synergyDRL_PATH}
-conda env create -f environment.yml
-conda activate synergy_analysis
-cd ..
-pip install -e ${synergyDRL_PATH}
-```
+### Finish
 
 The environment should be ready to run experiments. 
-## Important
-We use customized mujoco xml files and python files that can be found in MUJOCO_FILES in synergyDRL codebase. 
-Move the files inside this folder into the mujoco folder in 'synergy_analysis' virtual environment inside anaconda3.
-Typically, the path is:
-anaconda3/envs/synergy_analysis/lib/python3.6/site-packages/gym/envs/mujoco
 
-
-Finally, to deactivate and remove the conda environment:
+To deactivate and remove the conda environment:
 ```
 conda deactivate
 conda remove --name synergy_analysis --all
 ```
 
 ## To run and reproduce our results:
-While in the folder synergyDRL, with the virtual environment synergy_analysis activated, 
+While in the folder synergyDRL,
+with the virtual environment synergy_analysis activated, 
 1) ./HC_experiments_all_commands.sh
 2) ./HeavyHC_experiments_all_commands.sh
 3) ./FC_experiments_all_commands.sh
@@ -57,7 +61,7 @@ The results after running 1),2),3),4),5) are in "experiments_results" in the syn
 
 
 
-## Details from the original softlearning codebase(Extra)
+## Details from the original softlearning codebase(Extra, not necessary)
 ### Training an agent
 1. To train the agent
 ```
@@ -68,7 +72,6 @@ synergy_analysis run_example_local examples.development \
     --exp-name=HC_E0_r1 \
     --checkpoint-frequency=100  # Save the checkpoint to resume training later
 ```
-
 
 `examples.development.main` contains several different environments and there are more example scripts available in the  `/examples` folder. For more information about the agents and configurations, run the scripts with `--help` flag: `python ./examples/development/main.py --help`
 ```
@@ -122,6 +125,9 @@ optional arguments:
 
 # References
 The algorithms are based on the following papers:
+
+*Motor Synergy Development in High-performing Deep Reinforcement Learning algorithms*.</br>
+Jiazheng Chai, Mitsuhiro Hayashibe*.</br>
 
 *Soft Actor-Critic Algorithms and Applications*.</br>
 Tuomas Haarnoja*, Aurick Zhou*, Kristian Hartikainen*, George Tucker, Sehoon Ha, Jie Tan, Vikash Kumar, Henry Zhu, Abhishek Gupta, Pieter Abbeel, and Sergey Levine.
