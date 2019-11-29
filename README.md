@@ -31,7 +31,7 @@ pip install -e ${synergyDRL_PATH}
 
 The environment should be ready to run experiments. 
 ## Important
-We use customized mujoco xml files and python files that can be found in MUJOCO_FILES in synergy_analysis codebase. 
+We use customized mujoco xml files and python files that can be found in MUJOCO_FILES in synergyDRL codebase. 
 Move the files inside this folder into the mujoco folder in 'synergy_analysis' virtual environment inside anaconda3.
 Typically, the path is:
 anaconda3/envs/synergy_analysis/lib/python3.6/site-packages/gym/envs/mujoco
