@@ -24,13 +24,13 @@ softlearning run_example_local examples.development_TD3 --universe=gym --domain=
 softlearning run_example_local examples.development_TD3 --universe=gym --domain=HalfCheetah --task=Energy0-v0 --exp-name=HC_E0_TD3_r5   --checkpoint-frequency=100   --trial-gpus 1    --algorithm TD3 --policy deterministicsPolicy
 #####################Train#######################################
 
-#####################Collect action#######################################
+#####################Collect actions after training#######################################
 
 python examples/development/collect_actions_SAC.py --agent HalfCheetah
 
 python examples/development_TD3/collect_actions_TD3.py --agent HalfCheetah
 
-#####################Collect#######################################
+#####################Collect actions after training#######################################
 
 
 ############### Synergy development graph ###################################

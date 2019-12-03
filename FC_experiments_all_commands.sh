@@ -24,13 +24,13 @@ softlearning run_example_local examples.development_TD3 --universe=gym --domain=
 #####################Train#######################################
 
 
-#####################Collect action#######################################
+#####################Collect actions after training#######################################
 
 python examples/development/collect_actions_SAC.py --agent FullCheetah
 
 python examples/development_TD3/collect_actions_TD3.py --agent FullCheetah
 
-#####################Collect#######################################
+#####################Collect actions after training#######################################
 
 
 ############### Synergy development graph ###################################
