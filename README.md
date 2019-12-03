@@ -62,7 +62,7 @@ with the virtual environment synergy_analysis activated,
 
 Users must run 1),2),3) before 4) and 5). Users are also encouraged to further parallelize the command lines in 1),2),3) to speed up the training and action collection of the three agents. The whole experiments take tremendous of time.
 
-The results after running 1),2),3),4),5) are in "experiments_results" in the synergy_analysis codebase.
+The results after running 1),2),3),4),5) are in "experiments_results" in the synergyDRL folder.
 
 
 
