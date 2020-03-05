@@ -18,10 +18,16 @@ color_list=['b','r','g','c','m','y','k','#e41a1c', '#377eb8', '#4daf4a', '#984ea
 
 plt.rcParams["figure.figsize"] = (25,12)
 plt.rcParams["font.size"] = 20
+
 cwd=os.getcwd()
+cwd_list=cwd.split('/')
+while cwd_list[-1]!='synergy_analysis':
+    cwd_list.pop()
+cwd='/'.join(cwd_list)
 
 path_to_folder=cwd+'/experiments_results/Synergy/all_csv/process_SA_final_summary'
 
+fixed_scale=True
 for agent in os.listdir(path_to_folder):
     path_to_agent=os.path.join(path_to_folder,agent)
     for csv in os.listdir(path_to_agent):
@@ -101,7 +107,8 @@ for agent in os.listdir(path_to_folder):
     ax_FSA.set_xticklabels([agent])
 
     ax_FSA.set_title('FSA')
-
+    if fixed_scale:
+        ax_FSA.set_ylim([0, 9])
 
 
     r1 = np.arange(len([DSA_SAC]))
@@ -119,7 +126,8 @@ for agent in os.listdir(path_to_folder):
     ax_DSA.set_xticklabels([agent])
 
     ax_DSA.set_title('DSA')
-
+    if fixed_scale:
+        ax_DSA.set_ylim([-1,6])
 
 
     r1 = np.arange(len([ASA_SAC]))
@@ -130,7 +138,10 @@ for agent in os.listdir(path_to_folder):
     ax_ASA.set_ylabel('Area')
 
     ax_ASA.set_xticks([r + barWidth for r in range(len([ASA_SAC]))])
-    ax_ASA.set_xticklabels(['HC', 'HeavyHC', 'FC'])
+    #ax_ASA.set_xticklabels(['HC', 'HeavyHC', 'FC'])
+    ax_ASA.set_xticklabels([agent])
+    if fixed_scale:
+        ax_ASA.set_ylim([-1, 6])
 
     ax_ASA.set_title('ASA')
 

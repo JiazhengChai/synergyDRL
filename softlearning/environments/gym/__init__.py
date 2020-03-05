@@ -38,6 +38,11 @@ MUJOCO_ENVIRONMENT_SPECS = (
                         '.swimmer:SwimmerEnv'),
     },
     {
+        'id': 'Swimmer-Energy0-v0',
+        'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
+                        '.swimmer:SwimmerEnv'),
+    },
+    {
         'id': 'Hopper-Energy0-v0',
         'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
                         '.hopper:HopperEnv'),
@@ -61,6 +66,11 @@ MUJOCO_ENVIRONMENT_SPECS = (
         'id': 'Hopper-EnergyTwo-v0',
         'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
                         '.hopper:HopperEnv'),
+    },
+    {
+        'id': 'Bipedal2d-Energy0-v0',
+        'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
+                        '.bipedal_2:Bipedal2Env'),
     },
     {
         'id': 'Walker2d-Energy0-v0',
@@ -138,6 +148,31 @@ MUJOCO_ENVIRONMENT_SPECS = (
                         '.half_cheetah:HalfCheetahEnv'),
     },
     {
+        'id': 'HalfCheetah5dof-Energy0-v0',
+        'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
+                        '.half_cheetah:HalfCheetahEnv_5dof'),
+    },
+    {
+        'id': 'HalfCheetah4dof-Energy0-v0',
+        'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
+                        '.half_cheetah:HalfCheetahEnv_4dof'),
+    },
+    {
+        'id': 'HalfCheetah3doff-Energy0-v0',
+        'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
+                        '.half_cheetah:HalfCheetahEnv_3doff'),
+    },
+    {
+        'id': 'HalfCheetah3dofb-Energy0-v0',
+        'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
+                        '.half_cheetah:HalfCheetahEnv_3dofb'),
+    },
+    {
+        'id': 'HalfCheetah2dof-Energy0-v0',
+        'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
+                        '.half_cheetah:HalfCheetahEnv_2dof'),
+    },
+    {
         'id': 'Giraffe-Energy0-v0',
         'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
                         '.giraffe:GiraffeEnv'),
@@ -147,11 +182,30 @@ MUJOCO_ENVIRONMENT_SPECS = (
         'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
                         '.half_cheetah:HalfCheetahHeavyEnv'),
     },
-
+    {
+        'id': 'VA-Energy0-v0',
+        'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
+                        '.vertical_arm:VA'),
+    },
+    {
+        'id': 'VA4dof-Energy0-v0',
+        'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
+                        '.vertical_arm:VA4dof'),
+    },
+    {
+        'id': 'VA6dof-Energy0-v0',
+        'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
+                        '.vertical_arm:VA6dof'),
+    },
+    {
+        'id': 'VA8dof-Energy0-v0',
+        'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
+                        '.vertical_arm:VA8dof'),
+    },
     {
     'id': 'Centripede-Energy0-v0',
     'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
-    '.centripede:CentripedeEnv'),
+                    '.centripede:CentripedeEnv'),
     },
     {
         'id': 'FullCheetah-Energy0-v0',
@@ -210,12 +264,12 @@ MUJOCO_ENVIRONMENT_SPECS = (
                         '.humanoid:HumanoidEnv'),
     },
     {
-        'id': 'Humanoid-EnergyP5-v0',
+        'id': 'Humanoid-EnergyPoint5-v0',
         'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
                         '.humanoid:HumanoidEnv'),
     },
     {
-        'id': 'Humanoid-EnergyP1-v0',
+        'id': 'Humanoid-EnergyPoint1-v0',
         'entry_point': (f'{MUJOCO_ENVIRONMENTS_PATH}'
                         '.humanoid:HumanoidEnv'),
     },

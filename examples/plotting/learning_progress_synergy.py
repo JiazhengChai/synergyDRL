@@ -18,15 +18,48 @@ DPI=350
 trans_rate=0.3
 
 cwd=os.getcwd()
+cwd_list=cwd.split('/')
+while cwd_list[-1]!='synergy_analysis':
+    cwd_list.pop()
+
+cwd='/'.join(cwd_list)
+
 HC_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/HC'
 HeavyHC_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/HCheavy'
 FC_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/FC'
 
+HC4dof_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/HC4dof'
+HC2dof_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/HC2dof'
+
+HC3dofb_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/HC3dofb'
+HC3doff_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/HC3doff'
+HC5dof_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/HC5dof'
+
+VA_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/VA'
+VA4dof_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/VA4dof'
+VA6dof_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/VA6dof'
+VA8dof_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/VA8dof'
+
+fixed_scale=True
 available_list=[]
-for folder in [HC_folder,HeavyHC_folder,FC_folder]:
+for folder in [
+                VA_folder,
+                VA4dof_folder,
+                VA6dof_folder,
+                VA8dof_folder,
+                #HC2dof_folder,
+                #HC3dofb_folder,
+                #HC3doff_folder,
+                #HC4dof_folder,
+                #HC5dof_folder,
+                #HC_folder,
+                #HeavyHC_folder,
+                #C_folder
+                ]:#[HC_folder,HeavyHC_folder,FC_folder]HC_folder,,HC4dof_folder
     if os.path.exists(folder):
         available_list.append(folder)
 
+print(available_list)
 
 def my_as_si(x, ndp):
     s = '{x:0.{ndp:d}e}'.format(x=x, ndp=ndp)
@@ -38,15 +71,13 @@ c_P='C2'
 c_PI='C1'
 
 
-fixed_scale=True
-agentt_type='HC'
-algo='SAC'
+
 save_path=cwd+'/experiments_results/Synergy/learning_progress_graphs'
 if not os._exists(save_path):
     os.makedirs(save_path,exist_ok=True)
+
 get_rid_div=False
 div_rate = 0.2
-choice=FC_folder
 
 for choice in available_list:
     counter_sac=0
@@ -78,31 +109,45 @@ for choice in available_list:
                 current_TD3_P_list = np.vstack((current_TD3_P_list, np.asarray(current_file['P'])))
                 current_TD3_PI_list = np.vstack((current_TD3_PI_list, np.asarray(current_file['PI'])))
                 current_TD3_E_list = np.vstack((current_TD3_E_list, np.asarray(current_file['E'])))
+    try:
+        mean_P_SAC=np.flip(np.mean(current_SAC_P_list,axis=0),axis=0)
+        mean_PI_SAC=np.flip(np.mean(current_SAC_PI_list,axis=0),axis=0)
+        mean_surface_SAC=np.flip(np.mean(current_SAC_surface_list,axis=0),axis=0)
+        std_surface_SAC=np.flip(np.std(current_SAC_surface_list,axis=0),axis=0)
+        std_P_SAC=np.flip(np.std(current_SAC_P_list,axis=0),axis=0)
+        std_PI_SAC=np.flip(np.std(current_SAC_PI_list,axis=0),axis=0)
+    except:
+        mean_P_SAC = np.flip(current_SAC_P_list, axis=0)
+        mean_PI_SAC = np.flip(current_SAC_PI_list, axis=0)
+        mean_surface_SAC = np.flip(current_SAC_surface_list, axis=0)
 
-    mean_P_SAC=np.flip(np.mean(current_SAC_P_list,axis=0),axis=0)
-    mean_PI_SAC=np.flip(np.mean(current_SAC_PI_list,axis=0),axis=0)
-    mean_surface_SAC=np.flip(np.mean(current_SAC_surface_list,axis=0),axis=0)
-    std_surface_SAC=np.flip(np.std(current_SAC_surface_list,axis=0),axis=0)
-    std_P_SAC=np.flip(np.std(current_SAC_P_list,axis=0),axis=0)
-    std_PI_SAC=np.flip(np.std(current_SAC_PI_list,axis=0),axis=0)
+    try:
+        mean_P_TD3=np.flip(np.mean(current_TD3_P_list,axis=0),axis=0)
+        mean_PI_TD3=np.flip(np.mean(current_TD3_PI_list,axis=0),axis=0)
+        mean_surface_TD3=np.flip(np.mean(current_TD3_surface_list,axis=0),axis=0)
+        std_P_TD3=np.flip(np.std(current_TD3_P_list,axis=0),axis=0)
+        std_PI_TD3=np.flip(np.std(current_TD3_PI_list,axis=0),axis=0)
+        std_surface_TD3=np.flip(np.std(current_TD3_surface_list,axis=0),axis=0)
 
-    mean_P_TD3=np.flip(np.mean(current_TD3_P_list,axis=0),axis=0)
-    mean_PI_TD3=np.flip(np.mean(current_TD3_PI_list,axis=0),axis=0)
-    mean_surface_TD3=np.flip(np.mean(current_TD3_surface_list,axis=0),axis=0)
-    std_P_TD3=np.flip(np.std(current_TD3_P_list,axis=0),axis=0)
-    std_PI_TD3=np.flip(np.std(current_TD3_PI_list,axis=0),axis=0)
-    std_surface_TD3=np.flip(np.std(current_TD3_surface_list,axis=0),axis=0)
+        P_all = np.vstack((current_SAC_P_list, current_TD3_P_list))
+        PI_all = np.vstack((current_SAC_PI_list, current_TD3_PI_list))
+        SA_all = np.vstack((current_SAC_surface_list, current_TD3_surface_list))
+    except:
 
-    P_all=np.vstack((current_SAC_P_list,current_TD3_P_list))
-    PI_all=np.vstack((current_SAC_PI_list,current_TD3_PI_list))
-    SA_all=np.vstack((current_SAC_surface_list,current_TD3_surface_list))
-
-    mean_P_all=np.flip(np.mean(P_all,axis=0),axis=0)
-    mean_PI_all=np.flip(np.mean(PI_all,axis=0),axis=0)
-    mean_surface_all=np.flip(np.mean(SA_all,axis=0),axis=0)
-    std_P_all=np.flip(np.std(P_all,axis=0),axis=0)
-    std_PI_all=np.flip(np.std(PI_all,axis=0),axis=0)
-    std_surface_all=np.flip(np.std(SA_all,axis=0),axis=0)
+        P_all=current_SAC_P_list
+        PI_all=current_SAC_PI_list
+        SA_all=current_SAC_surface_list
+    try:
+        mean_P_all=np.flip(np.mean(P_all,axis=0),axis=0)
+        mean_PI_all=np.flip(np.mean(PI_all,axis=0),axis=0)
+        mean_surface_all=np.flip(np.mean(SA_all,axis=0),axis=0)
+        std_P_all=np.flip(np.std(P_all,axis=0),axis=0)
+        std_PI_all=np.flip(np.std(PI_all,axis=0),axis=0)
+        std_surface_all=np.flip(np.std(SA_all,axis=0),axis=0)
+    except:
+        mean_P_all = np.flip(P_all, axis=0)
+        mean_PI_all = np.flip(PI_all, axis=0)
+        mean_surface_all = np.flip(SA_all, axis=0)
 
     if choice==HC_folder:
         llist=[ ('HC', 'SAC'),
@@ -113,7 +158,24 @@ for choice in available_list:
     elif choice==FC_folder:
         llist=[ ('FC', 'SAC'),
         ('FC', 'TD3')]
-
+    elif choice==HC2dof_folder:
+        llist=[ ('HC2dof', 'SAC'),('HC2dof', 'TD3')]
+    elif choice==HC4dof_folder:
+        llist=[ ('HC4dof', 'SAC'),('HC4dof', 'TD3')]
+    elif choice==HC5dof_folder:
+        llist=[ ('HC5dof', 'SAC'),('HC5dof', 'TD3')]
+    elif choice==HC3doff_folder:
+        llist=[ ('HC3doff', 'SAC'),('HC3doff', 'TD3')]
+    elif choice == HC3dofb_folder:
+        llist = [('HC3dofb', 'SAC'),('HC3dofb', 'TD3')]
+    elif choice == VA_folder:
+        llist = [('VA', 'SAC'),('VA', 'TD3')]
+    elif choice == VA4dof_folder:
+        llist = [('VA4dof', 'SAC'),('VA4dof', 'TD3')]
+    elif choice == VA6dof_folder:
+        llist = [('VA6dof', 'SAC'), ('VA6dof', 'TD3')]
+    elif choice == VA8dof_folder:
+        llist = [('VA8dof', 'SAC'), ('VA8dof', 'TD3')]
 
     for agentt_type, algo in llist:
         if algo=='SAC':
@@ -121,9 +183,12 @@ for choice in available_list:
             P_list=mean_P_SAC
             PI_list=mean_PI_SAC
 
-            std_surface_area_w=std_surface_SAC
-            std_P_list=std_P_SAC
-            std_PI_list=std_PI_SAC
+            try:
+                std_surface_area_w=std_surface_SAC
+                std_P_list=std_P_SAC
+                std_PI_list=std_PI_SAC
+            except:
+                pass
 
         elif algo=='TD3':
             surface_area_w=mean_surface_TD3
@@ -155,7 +220,19 @@ for choice in available_list:
         ax3_w.axis["right"].toggle(all=True)
 
         surface_plot_w_ax.set_ylabel('Surface Area', color=c_SA)
-        surface_plot_w_ax.set_xlabel(r"${0:s}$ timesteps".format(my_as_si(1e5, 2)))
+        if 'VA' in agentt_type:
+            #surface_plot_w_ax.set_xlabel(r"${0:s}$ timesteps".format(my_as_si(6.5e3, 2)))
+            #surface_plot_w_ax.set_xticks(range(30))
+            #surface_plot_w_ax.set_xlabel(r"${0:s}$ timesteps".format(my_as_si(1e5, 2)))
+            #surface_plot_w_ax.set_xticks(range(10, 40,1))
+            skip=7
+            VA_timestep=[str(x) for x in range(6500,195000,6500*skip)]
+            surface_plot_w_ax.set_xticks(range(1, len(VA_timestep)*skip + 1,skip))
+            surface_plot_w_ax.set_xticklabels(VA_timestep)
+            surface_plot_w_ax.set_xlabel("timesteps")
+        else:
+            surface_plot_w_ax.set_xlabel(r"${0:s}$ timesteps".format(my_as_si(1e5, 2)))
+
         ax2_w.set_ylabel('Performance', color=c_P)
         ax3_w.set_ylabel('Performance-energy', color=c_PI)
 
@@ -167,13 +244,25 @@ for choice in available_list:
                 ax2_w.set_ylim([0, 8000])
             elif agentt_type == 'FC':
                 ax2_w.set_ylim([0, 23000])
+            elif agentt_type == 'HC2dof' or  agentt_type == 'HC5dof' or  agentt_type == 'HC3doff' or  agentt_type == 'HC3dofb':
+                ax2_w.set_ylim([0, 20000])
+            elif agentt_type == 'HC4dof':
+                ax2_w.set_ylim([0, 20000])
+            elif   'VA' in agentt_type: #agentt_type == 'VA' or agentt_type == 'VA4dof':
+                ax2_w.set_ylim([-1000, 300])
 
             if agentt_type == 'HC':
-                ax3_w.set_ylim([0, 8])
+                ax3_w.set_ylim([0, 15])#8
             elif agentt_type == 'HeavyHC':
                 ax3_w.set_ylim([0, 5])
             elif agentt_type == 'FC':
                 ax3_w.set_ylim([0, 6])
+            elif agentt_type == 'HC2dof' or agentt_type == 'HC5dof' or agentt_type == 'HC3doff' or agentt_type == 'HC3dofb':
+                ax3_w.set_ylim([0, 15])
+            elif agentt_type == 'HC4dof':
+                ax3_w.set_ylim([0, 15])
+            elif 'VA' in agentt_type:  # agentt_type == 'VA' or agentt_type == 'VA4dof':
+                ax3_w.set_ylim([-400, 250])
 
             if agentt_type == 'HC':
                 surface_plot_w_ax.set_ylim([3, 8])
@@ -181,6 +270,12 @@ for choice in available_list:
                 surface_plot_w_ax.set_ylim([4, 8])
             elif agentt_type == 'FC':
                 surface_plot_w_ax.set_ylim([3, 8])
+            elif agentt_type == 'HC2dof' or agentt_type == 'HC5dof' or agentt_type == 'HC3doff' or agentt_type == 'HC3dofb':
+                surface_plot_w_ax.set_ylim([3, 8])
+            elif agentt_type == 'HC4dof':
+                surface_plot_w_ax.set_ylim([3, 8])
+            elif 'VA' in agentt_type:  # agentt_type == 'VA' or agentt_type == 'VA4dof':
+                surface_plot_w_ax.set_ylim([3, 10])
 
         if get_rid_div:
             bad_ind_list = []
@@ -203,20 +298,58 @@ for choice in available_list:
 
         surface_plot_w_ax.plot(range(1, len(surface_area_w) + 1), surface_area_w, color=c_SA,
                                                        label='Surface area',linewidth=LW)
-        surface_plot_w_ax.fill_between(range(1, len(surface_area_w) + 1),surface_area_w+std_surface_area_w,
+        try:
+            surface_plot_w_ax.fill_between(range(1, len(surface_area_w) + 1),surface_area_w+std_surface_area_w,
                                        surface_area_w-std_surface_area_w, facecolor=c_SA, alpha=trans_rate)
+        except:
+            pass
 
         ax2_w.plot(range(1, len(surface_area_w) + 1), P_list, color=c_P,
                    label='Performance',linewidth=LW)
-        ax2_w.fill_between(range(1, len(surface_area_w) + 1),P_list+std_P_list,
+        try:
+            ax2_w.fill_between(range(1, len(surface_area_w) + 1),P_list+std_P_list,
                            P_list-std_P_list, facecolor=c_P, alpha=trans_rate)
+        except:
+            pass
 
         ax3_w.plot(range(1, len(surface_area_w) + 1), PI_list, color=c_PI,
                    label='Performance-energy',linewidth=LW)
-        ax3_w.fill_between(range(1, len(surface_area_w) + 1),PI_list+std_PI_list,
+        try:
+            ax3_w.fill_between(range(1, len(surface_area_w) + 1),PI_list+std_PI_list,
                            PI_list-std_PI_list, facecolor=c_PI, alpha=trans_rate)
+        except:
+            pass
 
         surface_plot_w_ax.legend(loc=2,prop={'size': LGS})
+
+        title_name=algo+' + '
+        if agentt_type=='HC':
+            title_name=title_name+'HalfCheetah'
+        elif agentt_type=='HeavyHC':
+            title_name=title_name+'Heavy HalfCheetah'
+        elif agentt_type=='HC2dof':
+            title_name=title_name+'HC2dof'
+        elif agentt_type=='HC4dof':
+            title_name=title_name+'HC4dof'
+        elif agentt_type == 'HC5dof':
+            title_name = title_name + 'HC5dof'
+        elif agentt_type == 'HC3doff':
+            title_name = title_name + 'HC3doff'
+        elif agentt_type == 'HC3dofb':
+            title_name = title_name + 'HC3dofb'
+        elif agentt_type == 'VA':
+            title_name = title_name + 'VA'
+        elif agentt_type == 'VA4dof':
+            title_name = title_name + 'VA4dof'
+        elif agentt_type == 'VA6dof':
+            title_name = title_name + 'VA6dof'
+        elif agentt_type == 'VA8dof':
+            title_name = title_name + 'VA8dof'
+        else:
+            title_name=title_name+'FullCheetah'
+
+
+        surface_plot_w_ax.set_title(title_name)
 
         plt.tight_layout()
 
@@ -227,7 +360,8 @@ for choice in available_list:
             plt.savefig(os.path.join(path, 'Fixed_scale_surface_weigthed_all_' + type_ + ex + '_' + str(
                 min_rsq) + '.jpg'))'''
 
-        plt.savefig(os.path.join(save_path, 'Learning_progress_' + agentt_type  + '_' +algo  + '.png'),format = 'png', dpi=DPI)
+        #plt.savefig(os.path.join(save_path, 'Learning_progress_' + agentt_type  + '_' +algo  + '.svg'),format = 'svg', dpi=DPI)
+        plt.savefig(os.path.join(save_path, 'Learning_progress_' + agentt_type  + '_' +algo  + '.svg'),format = 'svg')
 
         plt.close('all')
 

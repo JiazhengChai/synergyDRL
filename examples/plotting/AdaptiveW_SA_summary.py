@@ -29,7 +29,7 @@ plt.rcParams["figure.figsize"] = (10,8)
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--agentt',
-                    type=str,choices=['HCheavy','HC','A','Antheavy','FC','Ctp','G','HC_E1'])
+                    type=str,choices=['HCheavy','HC','A','Antheavy','FC','Ctp','G','HC_E1','HC4dof','HC5dof','HC3doff','HC3dofb','HC2dof','VA','VA4dof','VA6dof','VA8dof'])
 
 args = parser.parse_args()
 
@@ -50,7 +50,7 @@ agentt=args.agentt
 
 precheck=False
 
-if 'HC' in agentt:
+if 'HC' in agentt and 'dof' not in agentt:
     total_vec = 6
     total_chk=30
 
@@ -74,7 +74,123 @@ elif 'FC' in agentt:
     #ori_final = 1100
     #ori_begin = 500#1000
     #ori_step = 100
+elif agentt=='HC4dof':
+    total_vec = 4
+    total_chk=30
+    ori_final = 3000
+    ori_begin = 100
+    ori_step = 100
+    x_speed_index=6
+    desired_dist=500
+elif agentt=='HC2dof':
+    total_vec = 2
+    total_chk=30
+    ori_final = 3000
+    ori_begin = 100
+    ori_step = 100
+    x_speed_index=4
+    desired_dist=500
 
+elif agentt == 'HC3doff':
+    total_vec = 3
+    total_chk = 30
+    ori_final = 3000
+    ori_begin = 100
+    ori_step = 100
+    x_speed_index = 5
+    desired_dist = 500
+    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
+    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
+    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+    agentt_folder = 'HC3doff'
+
+elif agentt == 'HC3dofb':
+    total_vec = 3
+    total_chk = 30
+    ori_final = 3000
+    ori_begin = 100
+    ori_step = 100
+    x_speed_index = 5
+    desired_dist = 500
+    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
+    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
+    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+    agentt_folder = 'HC3dofb'
+
+elif agentt == 'HC5dof':
+    total_vec = 5
+    total_chk = 30
+    ori_final = 3000
+    ori_begin = 100
+    ori_step = 100
+    x_speed_index = 7
+    desired_dist = 500
+    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
+    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
+    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+    agentt_folder = 'HC5dof'
+
+elif agentt == 'VA':
+    total_vec = 2
+    total_chk = 30
+    ori_final = 390
+    ori_begin = 13
+    ori_step = 13
+    x_speed_index = None
+    desired_dist = 500
+    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
+    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
+    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+    agentt_folder = 'VA'
+    dll = 400
+    truncated_start= 300
+    #standscale = False
+elif agentt == 'VA4dof':
+    total_vec = 4
+    total_chk = 30
+    ori_final = 390
+    ori_begin = 13
+    ori_step = 13
+    x_speed_index = None
+    desired_dist = 500
+    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
+    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
+    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+    agentt_folder = 'VA4dof'
+    dll = 400
+    truncated_start= 300
+    #standscale = False
+elif agentt == 'VA6dof':
+    total_vec = 6
+    total_chk = 30
+    ori_final = 390
+    ori_begin = 13
+    ori_step = 13
+    x_speed_index = None
+    desired_dist = 500
+    joint_list = ['shoulder','shoulder2', 'elbow','elbow2','elbow3','elbow4']
+    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
+    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
+    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+    agentt_folder = 'VA6dof'
+    dll = 400
+    truncated_start= 300
+
+elif agentt == 'VA8dof':
+    total_vec = 8
+    total_chk = 30
+    ori_final = 390
+    ori_begin = 13
+    ori_step = 13
+    x_speed_index = None
+    desired_dist = 500
+    joint_list = ['shoulder','shoulder2','shoulder3','shoulder4', 'elbow','elbow2','elbow3','elbow4']
+    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
+    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
+    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+    agentt_folder = 'VA8dof'
+    dll = 400
+    truncated_start= 300
 top_folder=agentt
 
 cwd=os.getcwd()

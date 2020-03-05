@@ -33,7 +33,7 @@ cwd=os.getcwd()
 path_to_folder=cwd+'/experiments_results/Synergy/all_csv/process_SA_final_summary'
 
 
-
+fixed_scale=True
 for agent in os.listdir(path_to_folder):
     path_to_agent=os.path.join(path_to_folder,agent)
     for csv in os.listdir(path_to_agent):
@@ -115,6 +115,12 @@ for agent in os.listdir(path_to_folder):
     ax_FP.set_xticklabels([agent])
 
     ax_FP.set_title('Performance')
+    if fixed_scale:
+        if 'VA' in agent:
+            ax_FP.set_ylim([-600, 50])
+        else:
+            ax_FP.set_ylim([0, 16000])
+
 
     r1 = np.arange(len([FPI_SAC]))
     r2 = [x + barWidth for x in r1]
@@ -131,7 +137,11 @@ for agent in os.listdir(path_to_folder):
     ax_FPI.set_xticklabels([agent])
 
     ax_FPI.set_title('Performance Index')
-
+    if fixed_scale:
+        if 'VA' in agent:
+            ax_FPI.set_ylim([-100, 50])
+        else:
+            ax_FPI.set_ylim([0, 13])
     r1 = np.arange(len([FE_SAC]))
     r2 = [x + barWidth for x in r1]
 
@@ -141,9 +151,15 @@ for agent in os.listdir(path_to_folder):
 
 
     ax_FE.set_xticks([r + barWidth for r in range(len([FE_SAC]))])
-    ax_FE.set_xticklabels(['HC', 'HeavyHC', 'FC'])
+    #ax_FE.set_xticklabels(['HC', 'HeavyHC', 'FC'])
+    ax_FE.set_xticklabels([agent])
 
     ax_FE.set_title('Energy consumed')
+    if fixed_scale:
+        if 'VA' in agent:
+            ax_FE.set_ylim([0, 20])
+        else:
+            ax_FE.set_ylim([0, 2500])
 
     ax_FE.legend()
     if not os.path.exists(cwd+'/experiments_results/Synergy/histograms'):

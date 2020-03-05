@@ -231,6 +231,28 @@ def get_parser(allow_policy_list=False):
     parser.add_argument(
         '--task', type=str, choices=AVAILABLE_TASKS, default=DEFAULT_TASK)
 
+
+
+    parser.add_argument(
+        '--mse_target', type=float, default=0.1)
+    parser.add_argument(
+        '--mse_bool', type=bool, default=True)
+    parser.add_argument(
+        '--diff_pi', type=bool, default=True)
+    parser.add_argument(
+        '--gpu_choice', type=int, default=None)
+
+    parser.add_argument(
+        '--actor_size', type=int, default=256)
+    parser.add_argument(
+        '--critic_size', type=int, default=256)
+    parser.add_argument(
+        '--epoch_length', type=int, default=1000)
+    parser.add_argument(
+        '--total_epoch', type=int, default=None)
+    parser.add_argument(
+        '--fixed_latent_exploration', type=bool, default=False)
+
     parser.add_argument(
         '--checkpoint-replay-pool',
         type=lambda x: bool(strtobool(x)),
@@ -258,7 +280,8 @@ def get_parser(allow_policy_list=False):
         parser.add_argument(
             '--policy',
             type=str,
-            choices=('gaussian','deterministicsPolicy'),
+            choices=('gaussian','deterministicsPolicy','RnnGaussian','GruGaussian','LstmGaussian','RnnDPolicy',
+                     'GruD','LstmD'),
             default='gaussian')
 
     parser.add_argument(
@@ -267,6 +290,8 @@ def get_parser(allow_policy_list=False):
         default=datetimestamp())
     parser.add_argument(
         '--mode', type=str, default='local')
+    parser.add_argument(
+        '--spt_alpha', type=float, default=1)
     parser.add_argument(
         '--confirm-remote',
         type=lambda x: bool(strtobool(x)),

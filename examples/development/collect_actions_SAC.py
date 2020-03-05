@@ -91,11 +91,13 @@ def simulate_policy(args):
 
 if __name__ == '__main__':
     args = parse_args()
+
     if not args.path:
         agent=args.agent
         energy=args.energy
         top_path='./experiments_results/gym/'+agent+'/'+energy
 
+        print(top_path)
         if 'Energy0' in energy:
             ene_sub='_E0'
         elif 'EnergyOne' in energy:
@@ -107,13 +109,14 @@ if __name__ == '__main__':
             abrv = 'HCheavy'
         elif agent=='FullCheetah':
             abrv = 'FC'
+        else:
+            abrv = agent
 
         for experiment in os.listdir(top_path):
             exp_path=os.path.join(top_path,experiment)
 
             if 'TD3' not in experiment:
                 base_name=abrv+ene_sub
-
 
                 trial='_'+experiment.split('_')[-1]
 
@@ -122,9 +125,11 @@ if __name__ == '__main__':
                     extract_b=False
 
                 if extract_b:
+
                     for folder in os.listdir(exp_path):
                         if 'ExperimentRunner' in folder:
                             base_path=os.path.join(exp_path,folder)
+
                     start=args.start
                     step=args.step
                     final=args.final
@@ -200,6 +205,7 @@ if __name__ == '__main__':
 
                         np.save('./experiments_results/collected_actions/trajectory_npy/actions_npy/' + name, action_list)
                         np.save('./experiments_results/collected_actions/trajectory_npy/states_npy/' + name, states_list)
+
     else:
         base_path = args.path
         trial = '_' + base_path.split('/')[-2].split('-')[-1].split('_')[-1]
@@ -282,4 +288,5 @@ if __name__ == '__main__':
             np.save('./experiments_results/collected_actions/trajectory_npy/states_npy/' + name, states_list)
 
 
-    
+
+
