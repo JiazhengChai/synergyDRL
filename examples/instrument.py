@@ -206,6 +206,10 @@ def run_example_local(example_module_name,
     example_module = importlib.import_module(example_module_name)
 
     example_args = example_module.get_parser().parse_args(example_argv)
+
+    if example_args.gpu_choice is not None:
+        os.environ["CUDA_VISIBLE_DEVICES"] = str(example_args.gpu_choice)
+
     variant_spec = example_module.get_variant_spec(example_args)
     trainable_class = example_module.get_trainable_class(example_args)
 

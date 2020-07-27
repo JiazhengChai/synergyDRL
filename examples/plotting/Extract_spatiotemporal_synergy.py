@@ -6,6 +6,13 @@ from exp_variant_class import exp_variant
 from sklearn.decomposition import TruncatedSVD
 import argparse
 
+file_path=os.path.abspath(os.getcwd())
+path_list=file_path.split('/')
+while path_list[-1] !="synergyDRL":
+    path_list.pop(-1)
+
+cwd="/".join(path_list)
+
 cmap = plt.cm.viridis
 cmaplist = [cmap(i) for i in range(cmap.N)]
 cmaplen = len(cmaplist)
@@ -98,15 +105,16 @@ for tr in args.tr:
         all_names = []
         tmp = []
         for cc in range(final, begin - step, -step):
-            if cc == 3000 and 'HC' in agentt:
-                tmp.append(base + trial)
-                try:
-                    dummy = exp_variant(tmp[-1])
-                except:
-                    tmp.pop()
-                    tmp.append(base + '_C' + str(cc) + trial)
-            else:
-                tmp.append(base + '_C' + str(cc) + trial)
+            tmp.append(base + '_C' + str(cc) + trial)
+            # if cc == 3000 and 'HC' in agentt:
+            #     tmp.append(base + trial)
+            #     try:
+            #         dummy = exp_variant(tmp[-1])
+            #     except:
+            #         tmp.pop()
+            #         tmp.append(base + '_C' + str(cc) + trial)
+            # else:
+            #     tmp.append(base + '_C' + str(cc) + trial)
         all_names.append(tmp)
         all_names.reverse()
         print(all_names)
@@ -390,7 +398,7 @@ for tr in args.tr:
                 if save_figure == False:
                     plt.show()
                 else:
-                    path = 'experiments_results/Synergy/pattern/' + top_folder + '/' + subfolder + '/' + folder_name + '/' + 'Reconstructions'
+                    path = cwd+'/experiments_results/Synergy/pattern/' + top_folder + '/' + subfolder + '/' + folder_name + '/' + 'Reconstructions'
                     os.makedirs(path, exist_ok=True)
                     gg.tight_layout()
                     if tif:
@@ -423,7 +431,7 @@ for tr in args.tr:
                 if save_figure == False:
                     plt.show()
                 else:
-                    path = 'experiments_results/Synergy/pattern/' + top_folder + '/' + subfolder + '/' + folder_name + '/' + 'C_matrix'
+                    path = cwd+'/experiments_results/Synergy/pattern/' + top_folder + '/' + subfolder + '/' + folder_name + '/' + 'C_matrix'
 
                     os.makedirs(path, exist_ok=True)
                     gg.tight_layout()
@@ -466,7 +474,7 @@ for tr in args.tr:
                 if save_figure == False:
                     plt.show()
                 else:
-                    path = 'experiments_results/Synergy/pattern/' + top_folder + '/' + subfolder + '/' + folder_name + '/' + 'W_matrix'
+                    path = cwd+'/experiments_results/Synergy/pattern/' + top_folder + '/' + subfolder + '/' + folder_name + '/' + 'W_matrix'
                     os.makedirs(path, exist_ok=True)
                     gb.tight_layout()
                     if tif:
@@ -574,7 +582,7 @@ for tr in args.tr:
                     r_sq_single_ax.set_ylabel(r"${0:s}$".format(R2()))
                     r_sq_single_ax.set_xlabel('Number of PCA components')
 
-                    path = 'experiments_results/Synergy/pattern/' + top_folder + '/' + subfolder + '/' + folder_name + '/' + 'Rsq_single'
+                    path = cwd+'/experiments_results/Synergy/pattern/' + top_folder + '/' + subfolder + '/' + folder_name + '/' + 'Rsq_single'
 
                     os.makedirs(path, exist_ok=True)
                     r_sq_single.tight_layout()
@@ -608,7 +616,7 @@ for tr in args.tr:
                 custom_lines.append(Line2D([0], [0], color=color_list[s], lw=4))
                 s += 1
 
-            path = 'experiments_results/Synergy/pattern/' + top_folder + '/' + subfolder + '/' + folder_name
+            path = cwd+'/experiments_results/Synergy/pattern/' + top_folder + '/' + subfolder + '/' + folder_name
             os.makedirs(path, exist_ok=True)
             ex = '_named'
 

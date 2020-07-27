@@ -18,7 +18,12 @@ color_list=['b','r','g','c','m','y','k','#e41a1c', '#377eb8', '#4daf4a', '#984ea
 
 plt.rcParams["figure.figsize"] = (25,12)
 plt.rcParams["font.size"] = 20
-cwd=os.getcwd()
+file_path=os.path.abspath(os.getcwd())
+path_list=file_path.split('/')
+while path_list[-1] !="synergyDRL":
+    path_list.pop(-1)
+
+cwd="/".join(path_list)
 
 path_to_folder=cwd+'/experiments_results/Synergy/all_csv/process_SA_final_summary'
 

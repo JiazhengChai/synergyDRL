@@ -17,7 +17,13 @@ LGS=30
 DPI=350
 trans_rate=0.3
 
-cwd=os.getcwd()
+file_path=os.path.abspath(os.getcwd())
+path_list=file_path.split('/')
+while path_list[-1] !="synergyDRL":
+    path_list.pop(-1)
+
+cwd="/".join(path_list)
+
 HC_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/HC'
 HeavyHC_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/HCheavy'
 FC_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv/FC'

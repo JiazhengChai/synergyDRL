@@ -24,25 +24,25 @@ softlearning run_example_local examples.development_TD3 --universe=gym --domain=
 #####################Train#######################################
 
 
-#####################Collect action#######################################
+#####################Collect actions after training#######################################
 
 python examples/development/collect_actions_SAC.py --agent FullCheetah
 
 python examples/development_TD3/collect_actions_TD3.py --agent FullCheetah
 
-#####################Collect#######################################
+#####################Collect actions after training#######################################
 
 
 ############### Synergy development graph ###################################
 
-python examples/plotting/AdaptiveW_Extract_synergy_HC_compare_PI_spatiotemporal_evolution.py --tr   _r1 _r2 _r3 _r4 _r5  --ee E0 --agentt FC
+python examples/plotting/AdaptiveW_Extract_synergy_HC_compare_PI_spatiotemporal_evolution_SVD.py --tr   _r1 _r2 _r3 _r4 _r5  --ee E0 --agentt FC
 
-python examples/plotting/AdaptiveW_Extract_synergy_HC_compare_PI_spatiotemporal_evolution.py --tr    _r1 _r2 _r3 _r4 _r5   --ee E0_TD3 --agentt FC
+python examples/plotting/AdaptiveW_Extract_synergy_HC_compare_PI_spatiotemporal_evolution_SVD.py --tr    _r1 _r2 _r3 _r4 _r5   --ee E0_TD3 --agentt FC
 
 
-python examples/plotting/AdaptiveW_surface_area_spatiotemporal_evolution.py --tr   _r1 _r2 _r3 _r4 _r5   --ee E0 --agentt FC
+python examples/plotting/AdaptiveW_surface_area_spatiotemporal_evolution_SVD.py --tr   _r1 _r2 _r3 _r4 _r5   --ee E0 --agentt FC
 
-python examples/plotting/AdaptiveW_surface_area_spatiotemporal_evolution.py --tr   _r1 _r2 _r3 _r4 _r5   --ee E0_TD3 --agentt FC
+python examples/plotting/AdaptiveW_surface_area_spatiotemporal_evolution_SVD.py --tr   _r1 _r2 _r3 _r4 _r5   --ee E0_TD3 --agentt FC
 
 
 ############### Synergy development graph ###################################
@@ -50,9 +50,9 @@ python examples/plotting/AdaptiveW_surface_area_spatiotemporal_evolution.py --tr
 
 ############### Histograms  ###################################
 
-python examples/plotting/AdaptiveW_Extract_SA_P_PI_corr_each_trial.py  --tr   _r1 _r2 _r3 _r4 _r5   --ee E0 --agentt FC
+python examples/plotting/AdaptiveW_Extract_SA_P_PI_corr_each_trial_SVD.py  --tr   _r1 _r2 _r3 _r4 _r5   --ee E0 --agentt FC
 
-python examples/plotting/AdaptiveW_Extract_SA_P_PI_corr_each_trial.py  --tr   _r1 _r2 _r3 _r4 _r5   --ee E0_TD3 --agentt FC
+python examples/plotting/AdaptiveW_Extract_SA_P_PI_corr_each_trial_SVD.py  --tr   _r1 _r2 _r3 _r4 _r5   --ee E0_TD3 --agentt FC
 
 
 python examples/plotting/AdaptiveW_process_SA.py  --agentt FC
