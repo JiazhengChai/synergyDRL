@@ -8,6 +8,13 @@ from sklearn.metrics import r2_score
 from exp_variant_class import exp_variant
 from sklearn.decomposition import TruncatedSVD
 
+file_path=os.path.abspath(os.getcwd())
+path_list=file_path.split('/')
+while path_list[-1] !="synergyDRL":
+    path_list.pop(-1)
+
+file_path="/".join(path_list)
+
 def gauss(x, mu, a = 1, sigma = 1/6):
     return a * np.exp(-(x - mu)**2 / (2*sigma**2))
 
@@ -105,6 +112,10 @@ per_episode_max_length=1000
 
 type_ = 'P'
 
+action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
+reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
+state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
 if 'HC' in agentt and 'dof' not in agentt:
     total_vec = 6
     total_chk=30
@@ -113,9 +124,6 @@ if 'HC' in agentt and 'dof' not in agentt:
     ori_step = 100
     x_speed_index=8
     desired_dist=500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
 
 elif 'FC' in agentt:
     total_vec = 12
@@ -125,9 +133,7 @@ elif 'FC' in agentt:
     ori_step = 100
     x_speed_index=14
     desired_dist=500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
 
 elif agentt=='HC4dof':
     total_vec = 4
@@ -137,9 +143,7 @@ elif agentt=='HC4dof':
     ori_step = 100
     x_speed_index=6
     desired_dist=500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
 
 elif agentt=='HC2dof':
     total_vec = 2
@@ -149,9 +153,7 @@ elif agentt=='HC2dof':
     ori_step = 100
     x_speed_index=4
     desired_dist=500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
 
 elif agentt=='HC3doff':
     total_vec = 3
@@ -161,9 +163,7 @@ elif agentt=='HC3doff':
     ori_step = 100
     x_speed_index=5
     desired_dist=500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
 
 elif agentt=='HC3dofb':
     total_vec = 3
@@ -173,9 +173,7 @@ elif agentt=='HC3dofb':
     ori_step = 100
     x_speed_index=5
     desired_dist=500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
 
 elif agentt=='HC5dof':
     total_vec = 5
@@ -185,9 +183,7 @@ elif agentt=='HC5dof':
     ori_step = 100
     x_speed_index=7
     desired_dist=500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
 elif agentt == 'VA':
     total_vec = 2
     total_chk = 30
@@ -196,9 +192,7 @@ elif agentt == 'VA':
     ori_step = 13
     x_speed_index = None
     desired_dist = 500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
     agentt_folder = 'VA'
     dll = 400
     truncated_start= 300
@@ -212,9 +206,7 @@ elif agentt == 'VA4dof':
     x_speed_index = None
     desired_dist = 500
     joint_list = ['shoulder','shoulder2', 'elbow','elbow2']
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
     agentt_folder = 'VA4dof'
     dll = 400
     truncated_start= 300
@@ -227,9 +219,7 @@ elif agentt == 'VA6dof':
     x_speed_index = None
     desired_dist = 500
     joint_list = ['shoulder','shoulder2', 'elbow','elbow2','elbow3','elbow4']
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
     agentt_folder = 'VA6dof'
     dll = 400
     truncated_start= 300
@@ -243,9 +233,7 @@ elif agentt == 'VA8dof':
     x_speed_index = None
     desired_dist = 500
     joint_list = ['shoulder','shoulder2','shoulder3','shoulder4', 'elbow','elbow2','elbow3','elbow4']
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
     agentt_folder = 'VA8dof'
     dll = 400
     truncated_start= 300
@@ -255,8 +243,8 @@ if 'E1' in args.ee:
 else:
     top_folder=agentt
 
-if not os.path.exists('experiments_results/Synergy/all_csv/raw_csv/'+top_folder):
-    os.makedirs('experiments_results/Synergy/all_csv/raw_csv/'+top_folder, exist_ok=True)
+if not os.path.exists(file_path+'/experiments_results/Synergy/all_csv/raw_csv/'+top_folder):
+    os.makedirs(file_path+'/experiments_results/Synergy/all_csv/raw_csv/'+top_folder, exist_ok=True)
 
 if args.agentt=='A' and 'E0' in args.ee:
     args.tr=['']+args.tr
@@ -270,7 +258,7 @@ for tr in args.tr:
         subfolder=ee
 
         surface_csv = open(
-            'experiments_results/Synergy/all_csv/raw_csv/' + top_folder  + '/' + agentt + '_' + ee +tr+'_all_surface.csv', 'w')
+            file_path+'/experiments_results/Synergy/all_csv/raw_csv/' + top_folder  + '/' + agentt + '_' + ee +tr+'_all_surface.csv', 'w')
 
         writer = csv.writer(surface_csv, lineterminator='\n')
 

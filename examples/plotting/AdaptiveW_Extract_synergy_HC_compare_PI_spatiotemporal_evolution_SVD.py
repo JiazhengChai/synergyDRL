@@ -9,6 +9,13 @@ from exp_variant_class import exp_variant
 from sklearn.decomposition import TruncatedSVD
 
 
+file_path=os.path.abspath(os.getcwd())
+path_list=file_path.split('/')
+while path_list[-1] !="synergyDRL":
+    path_list.pop(-1)
+
+file_path="/".join(path_list)
+
 def gauss(x, mu, a = 1, sigma = 1/6):
     return a * np.exp(-(x - mu)**2 / (2*sigma**2))
 
@@ -132,6 +139,9 @@ type_ = 'P'
 version = '3_components_truncated'
 top_folder=agentt+'_spatiotemporal_evolution'
 
+action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
+reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
+state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
 if 'HC' in agentt and 'dof' not in agentt:
     total_vec = 6
     total_chk=30
@@ -184,9 +194,7 @@ elif agentt == 'HC3doff':
     ori_step = 100
     x_speed_index = 5
     desired_dist = 500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
     agentt_folder = 'HC3doff'
 
 elif agentt == 'HC3dofb':
@@ -197,9 +205,7 @@ elif agentt == 'HC3dofb':
     ori_step = 100
     x_speed_index = 5
     desired_dist = 500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
     agentt_folder = 'HC3dofb'
 
 elif agentt == 'HC5dof':
@@ -210,9 +216,7 @@ elif agentt == 'HC5dof':
     ori_step = 100
     x_speed_index = 7
     desired_dist = 500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
     agentt_folder = 'HC5dof'
 
 elif agentt == 'VA':
@@ -224,9 +228,6 @@ elif agentt == 'VA':
     x_speed_index = None
     desired_dist = 500
     joint_list = ['shoulder', 'elbow']
-    action_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/states_npy'
     dll = 400
     truncated_start= 300
 
@@ -243,9 +244,6 @@ elif agentt == 'VA4dof':
     x_speed_index = None
     desired_dist = 500
     joint_list = ['shoulder','shoulder2', 'elbow','elbow2']
-    action_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/states_npy'
     dll = 400
     truncated_start= 300
 
@@ -270,18 +268,12 @@ for tr in args.tr:
         base= agentt + '_' + ee
         all_names=[]
         tmp=[]
-        if final == 3000 and 'HC' in agentt and 'dof' not in agentt:
-            for cc in range(begin, final + step, step):
-                if cc != final:
-                    tmp.append(base + '_C' + str(cc) + trial)
-                else:
-                    tmp.append(base + trial)
-        else:
-            for cc in range(begin, final + step, step):
-                tmp.append(base + '_C' + str(cc) + trial)
+
+        for cc in range(begin, final + step, step):
+            tmp.append(base + '_C' + str(cc) + trial)
+
 
         all_names.append(tmp)
-        #all_names.reverse()
         print(all_names)
         if precheck:
             top_tmp=[]
@@ -589,7 +581,7 @@ for tr in args.tr:
                 if save==False:
                     plt.show()
                 else:
-                    path='experiments_results/Synergy/synergy_development_'+agentt+'/'+top_folder+'/'+subfolder+'/'+folder_name+'/Reconstructions'
+                    path=file_path+'/experiments_results/Synergy/synergy_development_'+agentt+'/'+top_folder+'/'+subfolder+'/'+folder_name+'/Reconstructions'
                     os.makedirs(path, exist_ok=True)
                     gg.tight_layout()
 
@@ -617,7 +609,7 @@ for tr in args.tr:
                 if save == False:
                     plt.show()
                 else:
-                    path = 'experiments_results/Synergy/synergy_development_'+agentt+'/'+top_folder+'/'+subfolder+'/'+folder_name+'/'+ '/Synergy_plot_' + version
+                    path = file_path+'/experiments_results/Synergy/synergy_development_'+agentt+'/'+top_folder+'/'+subfolder+'/'+folder_name+'/'+ '/Synergy_plot_' + version
                     os.makedirs(path, exist_ok=True)
                     gg.tight_layout()
                     if svg:
@@ -662,7 +654,7 @@ for tr in args.tr:
                 if save==False:
                     plt.show()
                 else:
-                    path = 'experiments_results/Synergy/synergy_development_'+agentt+'/'+top_folder+'/'+subfolder+'/'+folder_name+'/' + '/PCA_components_'+version
+                    path = file_path+'/experiments_results/Synergy/synergy_development_'+agentt+'/'+top_folder+'/'+subfolder+'/'+folder_name+'/' + '/PCA_components_'+version
                     os.makedirs(path, exist_ok=True)
                     gb.tight_layout()
                     if svg:
@@ -816,7 +808,7 @@ for tr in args.tr:
                     r_sq_single_ax.set_ylabel(r"${0:s}$".format(R2()))
                     r_sq_single_ax.set_xlabel('Number of PCA components')
 
-                    path = 'experiments_results/Synergy/synergy_development_'+agentt+'/'+top_folder+'/'+subfolder+'/'+folder_name+'/' + '/Rsq'#+ exp_variant_obj.name+'_synergy'
+                    path = file_path+'/experiments_results/Synergy/synergy_development_'+agentt+'/'+top_folder+'/'+subfolder+'/'+folder_name+'/' + '/Rsq'#+ exp_variant_obj.name+'_synergy'
                     os.makedirs(path, exist_ok=True)
                     r_sq_single.tight_layout()
                     if svg:
@@ -852,7 +844,7 @@ for tr in args.tr:
                 custom_lines.append(Line2D([0], [0], color=color_list[kkk], lw=4))
 
 
-            path = 'experiments_results/Synergy/synergy_development_'+agentt+'/'+top_folder+'/'+subfolder+'/'+folder_name
+            path = file_path+'/experiments_results/Synergy/synergy_development_'+agentt+'/'+top_folder+'/'+subfolder+'/'+folder_name
             os.makedirs(path, exist_ok=True)
             ex=''
             if named_label:

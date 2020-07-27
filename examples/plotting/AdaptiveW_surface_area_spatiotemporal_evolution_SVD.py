@@ -11,6 +11,14 @@ from scipy import integrate
 from mpl_toolkits.axes_grid1 import host_subplot
 import mpl_toolkits.axisartist as AA
 
+file_path=os.path.abspath(os.getcwd())
+path_list=file_path.split('/')
+while path_list[-1] !="synergyDRL":
+    path_list.pop(-1)
+
+file_path="/".join(path_list)
+
+
 def my_as_si(x, ndp):
     s = '{x:0.{ndp:d}e}'.format(x=x, ndp=ndp)
     m, e = s.split('e')
@@ -122,6 +130,10 @@ surface_area_y_lim=[1, 4.05]
 type_ = 'P'
 version = '3_components_truncated'
 
+action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
+reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
+state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
 if 'HC' in agentt and 'dof' not in agentt:
     total_vec = 6
     total_chk=30
@@ -135,10 +147,6 @@ if 'HC' in agentt and 'dof' not in agentt:
     if agentt == 'HCheavy':
         P_y_lim = [0, 10000]
         PI_y_lim = [0, 6]
-
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
 
 
 elif 'FC' in agentt:
@@ -192,9 +200,7 @@ elif agentt == 'HC3doff':
     ori_step = 100
     x_speed_index = 5
     desired_dist = 500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
     agentt_folder = 'HC3doff'
 
 elif agentt == 'HC3dofb':
@@ -205,9 +211,7 @@ elif agentt == 'HC3dofb':
     ori_step = 100
     x_speed_index = 5
     desired_dist = 500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
     agentt_folder = 'HC3dofb'
 
 elif agentt == 'HC5dof':
@@ -218,9 +222,7 @@ elif agentt == 'HC5dof':
     ori_step = 100
     x_speed_index = 7
     desired_dist = 500
-    action_path = './experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = './experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = './experiments_results/collected_actions/trajectory_npy/states_npy'
+
     agentt_folder = 'HC5dof'
 
 elif agentt == 'VA':
@@ -232,9 +234,7 @@ elif agentt == 'VA':
     x_speed_index = None
     desired_dist = 500
     joint_list = ['shoulder', 'elbow']
-    action_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/states_npy'
+
     dll = 400
     truncated_start= 300
 
@@ -253,9 +253,7 @@ elif agentt == 'VA4dof':
     x_speed_index = None
     desired_dist = 500
     joint_list = ['shoulder','shoulder2', 'elbow','elbow2']
-    action_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/actions_npy'
-    reward_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/reward_energy_dict'
-    state_path = '/home/jzchai/PycharmProjects/synergy_analysis/experiments_results/collected_actions/trajectory_npy/states_npy'
+
     dll = 400
     truncated_start= 300
 
@@ -291,15 +289,8 @@ for fixed_scale in [
             all_names=[]
             tmp=[]
 
-            if final == 3000 and 'HC' in agentt and 'dof' not in agentt:
-                for cc in range(begin, final + step, step):
-                    if cc != final:
-                        tmp.append(base + '_C' + str(cc) + trial)
-                    else:
-                        tmp.append(base + trial)
-            else:
-                for cc in range(begin, final + step, step):
-                    tmp.append(base + '_C' + str(cc) + trial)
+            for cc in range(begin, final + step, step):
+                tmp.append(base + '_C' + str(cc) + trial)
 
             all_names.append(tmp)
             #all_names.reverse()
@@ -563,7 +554,7 @@ for fixed_scale in [
 
                             pass
 
-                path = 'experiments_results/Synergy/synergy_development_'+agentt+'/' + top_folder + '/' + subfolder + '/' + folder_name
+                path = file_path+'/experiments_results/Synergy/synergy_development_'+agentt+'/' + top_folder + '/' + subfolder + '/' + folder_name
                 os.makedirs(path, exist_ok=True)
                 ex = ''
                 if named_label:
