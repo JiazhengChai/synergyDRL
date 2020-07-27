@@ -35,24 +35,24 @@ python examples/development_TD3/collect_actions_TD3.py --agent HalfCheetah
 
 ############### Synergy development graph ###################################
 
-python examples/plotting/AdaptiveW_Extract_synergy_HC_compare_PI_spatiotemporal_evolution.py --tr   _r1 _r2 _r3 _r4 _r5 --ee E0 --agentt HC
+python examples/plotting/AdaptiveW_Extract_synergy_HC_compare_PI_spatiotemporal_evolution_SVD.py --tr   _r1 _r2 _r3 _r4 _r5 --ee E0 --agentt HC
 
 
-python examples/plotting/AdaptiveW_Extract_synergy_HC_compare_PI_spatiotemporal_evolution.py --tr   _r1 _r2 _r3 _r4 _r5   --ee E0_TD3 --agentt HC
+python examples/plotting/AdaptiveW_Extract_synergy_HC_compare_PI_spatiotemporal_evolution_SVD.py --tr   _r1 _r2 _r3 _r4 _r5   --ee E0_TD3 --agentt HC
 
 
-python examples/plotting/AdaptiveW_surface_area_spatiotemporal_evolution.py --tr    _r1 _r2 _r3 _r4 _r5   --ee E0 --agentt HC
+python examples/plotting/AdaptiveW_surface_area_spatiotemporal_evolution_SVD.py --tr    _r1 _r2 _r3 _r4 _r5   --ee E0 --agentt HC
 
-python examples/plotting/AdaptiveW_surface_area_spatiotemporal_evolution.py --tr   _r1 _r2 _r3 _r4 _r5    --ee E0_TD3 --agentt HC
+python examples/plotting/AdaptiveW_surface_area_spatiotemporal_evolution_SVD.py --tr   _r1 _r2 _r3 _r4 _r5    --ee E0_TD3 --agentt HC
 
 
 ############### Synergy development graph ###################################
 
 ############### Histograms  ###################################
 
-python examples/plotting/AdaptiveW_Extract_SA_P_PI_corr_each_trial.py  --tr   _r1 _r2 _r3 _r4 _r5  --ee E0 --agentt HC
+python examples/plotting/AdaptiveW_Extract_SA_P_PI_corr_each_trial_SVD.py  --tr   _r1 _r2 _r3 _r4 _r5  --ee E0 --agentt HC
 
-python examples/plotting/AdaptiveW_Extract_SA_P_PI_corr_each_trial.py  --tr     _r1 _r2 _r3 _r4 _r5  --ee E0_TD3 --agentt HC
+python examples/plotting/AdaptiveW_Extract_SA_P_PI_corr_each_trial_SVD.py  --tr     _r1 _r2 _r3 _r4 _r5  --ee E0_TD3 --agentt HC
 
 
 python examples/plotting/AdaptiveW_process_SA.py  --agentt HC

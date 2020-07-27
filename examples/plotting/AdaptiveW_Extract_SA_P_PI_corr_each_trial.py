@@ -103,15 +103,16 @@ for tr in args.tr:
 
         tmp=[]
         for cc in range(final, begin - step, -step):
-            if cc==3000 and 'HC' in agentt:
-                tmp.append(base + trial)
-                try:
-                    dummy=exp_variant(tmp[-1])
-                except:
-                    tmp.pop()
-                    tmp.append(base + '_C' + str(cc) + trial)
-            else:
-                tmp.append(base + '_C' + str(cc) + trial)
+            tmp.append(base + '_C' + str(cc) + trial)
+            # if cc==3000 and 'HC' in agentt:
+            #     tmp.append(base + trial)
+            #     try:
+            #         dummy=exp_variant(tmp[-1])
+            #     except:
+            #         tmp.pop()
+            #         tmp.append(base + '_C' + str(cc) + trial)
+            # else:
+            #     tmp.append(base + '_C' + str(cc) + trial)
 
 
 

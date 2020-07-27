@@ -108,7 +108,8 @@ if __name__ == '__main__':
             abrv = 'HCheavy'
         elif agent=='FullCheetah':
             abrv = 'FC'
-
+        else:
+            abrv = agent
         for experiment in os.listdir(top_path):
             exp_path=os.path.join(top_path,experiment)
             if 'TD3' in experiment:
@@ -116,86 +117,90 @@ if __name__ == '__main__':
 
 
                 trial='_'+experiment.split('_')[-1]
+                extract_b = True
+                if 'all' not in args.tr and trial not in args.tr:
+                    extract_b = False
 
-                for folder in os.listdir(exp_path):
-                    if 'ExperimentRunner' in folder:
-                        base_path=os.path.join(exp_path,folder)
+                if extract_b:
+                    for folder in os.listdir(exp_path):
+                        if 'ExperimentRunner' in folder:
+                            base_path=os.path.join(exp_path,folder)
 
-                start=args.start
-                step=args.step
-                final=args.final
+                    start=args.start
+                    step=args.step
+                    final=args.final
 
-                all_checkpoint = []
-                all_name =[]
-                for ch in range(start,final+1,step):
-                    specific='checkpoint_'+str(ch)
-                    all_checkpoint.append(os.path.join(base_path, specific))
-                    namee = base_name + '_C' + str(ch) + trial
+                    all_checkpoint = []
+                    all_name =[]
+                    for ch in range(start,final+1,step):
+                        specific='checkpoint_'+str(ch)
+                        all_checkpoint.append(os.path.join(base_path, specific))
+                        namee = base_name + '_C' + str(ch) + trial
 
-                    all_name.append(namee)
+                        all_name.append(namee)
 
-                for ind,chk in enumerate(all_checkpoint):
-                    args.checkpoint_path=chk
-                    args.name=all_name[ind]
+                    for ind,chk in enumerate(all_checkpoint):
+                        args.checkpoint_path=chk
+                        args.name=all_name[ind]
 
-                    paths=simulate_policy(args)
+                        paths=simulate_policy(args)
 
-                    total_ori_reward = []
-                    total_energy = []
+                        total_ori_reward = []
+                        total_energy = []
 
-                    action_list=[]
-                    states_list = []
-                    for path in paths:
+                        action_list=[]
+                        states_list = []
+                        for path in paths:
+                            try:
+                                tmp = 0
+                                tmpe=0
+                                for i in range(len(path['infos'])):
+                                    tmp = tmp + path['infos'][i]['ori_reward']
+                                    tmpe = tmpe + path['infos'][i]['energy']
+                                total_ori_reward.append(tmp)
+                                total_energy.append(tmpe)
+                            except:
+                                pass
+
+                            action_list.append(path['actions'])
+                            states_list.append(path['states'])
+
+
+                        action_list=np.asarray(action_list)
+                        states_list = np.asarray(states_list)
+                        name = args.name
+                        print(name)
+
+                        total_energy = np.asarray(total_energy)
+                        if not os.path.exists('./experiments_results/collected_actions/trajectory_npy/reward_energy_dict'):
+                            os.makedirs('./experiments_results/collected_actions/trajectory_npy/reward_energy_dict',exist_ok=True)
+
+                        if not os.path.exists('./experiments_results/collected_actions/trajectory_npy/actions_npy'):
+                            os.makedirs('./experiments_results/collected_actions/trajectory_npy/actions_npy',exist_ok=True)
+
+                        if not os.path.exists('./experiments_results/collected_actions/trajectory_npy/states_npy'):
+                            os.makedirs('./experiments_results/collected_actions/trajectory_npy/states_npy',exist_ok=True)
+
                         try:
-                            tmp = 0
-                            tmpe=0
-                            for i in range(len(path['infos'])):
-                                tmp = tmp + path['infos'][i]['ori_reward']
-                                tmpe = tmpe + path['infos'][i]['energy']
-                            total_ori_reward.append(tmp)
-                            total_energy.append(tmpe)
+                            diagnostics = OrderedDict((
+                                ('ori-return-average', np.mean(total_ori_reward)),
+                                ('ori-return-min', np.min(total_ori_reward)),
+                                ('ori-return-max', np.max(total_ori_reward)),
+                                ('ori-return-std', np.std(total_ori_reward)),
+
+                                ('total-energy-average', np.mean(total_energy)),
+                                ('total-energy-min', np.min(total_energy)),
+                                ('total-energy-max', np.max(total_energy)),
+                                ('total-energy-std', np.std(total_energy)),
+                            ))
+
+                            np.save('./experiments_results/collected_actions/trajectory_npy/reward_energy_dict/' + name, diagnostics)
+
                         except:
                             pass
 
-                        action_list.append(path['actions'])
-                        states_list.append(path['states'])
-
-
-                    action_list=np.asarray(action_list)
-                    states_list = np.asarray(states_list)
-                    name = args.name
-                    print(name)
-
-                    total_energy = np.asarray(total_energy)
-                    if not os.path.exists('./experiments_results/collected_actions/trajectory_npy/reward_energy_dict'):
-                        os.makedirs('./experiments_results/collected_actions/trajectory_npy/reward_energy_dict',exist_ok=True)
-
-                    if not os.path.exists('./experiments_results/collected_actions/trajectory_npy/actions_npy'):
-                        os.makedirs('./experiments_results/collected_actions/trajectory_npy/actions_npy',exist_ok=True)
-
-                    if not os.path.exists('./experiments_results/collected_actions/trajectory_npy/states_npy'):
-                        os.makedirs('./experiments_results/collected_actions/trajectory_npy/states_npy',exist_ok=True)
-
-                    try:
-                        diagnostics = OrderedDict((
-                            ('ori-return-average', np.mean(total_ori_reward)),
-                            ('ori-return-min', np.min(total_ori_reward)),
-                            ('ori-return-max', np.max(total_ori_reward)),
-                            ('ori-return-std', np.std(total_ori_reward)),
-
-                            ('total-energy-average', np.mean(total_energy)),
-                            ('total-energy-min', np.min(total_energy)),
-                            ('total-energy-max', np.max(total_energy)),
-                            ('total-energy-std', np.std(total_energy)),
-                        ))
-
-                        np.save('./experiments_results/collected_actions/trajectory_npy/reward_energy_dict/' + name, diagnostics)
-
-                    except:
-                        pass
-
-                    np.save('./experiments_results/collected_actions/trajectory_npy/actions_npy/' + name, action_list)
-                    np.save('./experiments_results/collected_actions/trajectory_npy/states_npy/' + name, states_list)
+                        np.save('./experiments_results/collected_actions/trajectory_npy/actions_npy/' + name, action_list)
+                        np.save('./experiments_results/collected_actions/trajectory_npy/states_npy/' + name, states_list)
     else:
         base_path = args.path
         # base_name = abrv + ene_sub

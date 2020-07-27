@@ -230,7 +230,17 @@ def get_parser(allow_policy_list=False):
         default=DEFAULT_DOMAIN)
     parser.add_argument(
         '--task', type=str, choices=AVAILABLE_TASKS, default=DEFAULT_TASK)
+    parser.add_argument(
+        '--gpu_choice', type=int, default=None)
 
+    parser.add_argument(
+        '--actor_size', type=int, default=256)
+    parser.add_argument(
+        '--critic_size', type=int, default=256)
+    parser.add_argument(
+        '--epoch_length', type=int, default=1000)
+    parser.add_argument(
+        '--total_epoch', type=int, default=None)
     parser.add_argument(
         '--checkpoint-replay-pool',
         type=lambda x: bool(strtobool(x)),

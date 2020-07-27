@@ -106,12 +106,12 @@ ALGORITHM_PARAMS_ADDITIONAL = {
         'type': 'TD3',
         'kwargs': {
             'reparameterize': REPARAMETERIZE,
-            'lr': 3e-4,
+            'lr': 1e-3,
             'target_update_interval': 2,
             'tau': 5e-3,
             'store_extra_policy_info': False,
             'action_prior': 'uniform',
-            'n_initial_exploration_steps': int(1e3),
+            'n_initial_exploration_steps': int(1e4),
         }
     },
 
@@ -126,10 +126,20 @@ NUM_EPOCHS_PER_DOMAIN = {
     'HalfCheetah': int(3e3),
     'Giraffe': int(2e3),
     'HalfCheetahHeavy':int(3e3),
+    'HalfCheetah5dof': int(3e3),
+    'HalfCheetah4dof':int(3e3),
+    'HalfCheetah2dof':int(3e3),
+    'HalfCheetah3doff': int(3e3),
+    'HalfCheetah3dofb': int(3e3),
     'FullCheetah':int(3e3),
     'Centripede':int(2e3),
     'Walker2d': int(1e3),
+    'Bipedal2d':int(300),
     'Ant': int(2e3),
+    'VA': int(30),
+    'VA4dof': int(30),
+    'VA6dof': int(30),
+    'VA8dof': int(100),
     'AntHeavy': int(2e3),
     'Humanoid': int(5e3),#int(1e4),
     'Humanoidrllab': int(3e3),#int(1e4),
@@ -160,7 +170,36 @@ ALGORITHM_PARAMS_PER_DOMAIN = {
 }
 
 ENV_PARAMS = {
+    'Bipedal2d': {  # 6 DoF
+        'Energy0-v0': {
+            'target_energy':3
+        },
 
+    },
+    'VA': {  # 6 DoF
+        'Energy0-v0': {
+            'distance_reward_weight':5.0,
+            'ctrl_cost_weight':0.05,
+        },
+    },
+    'VA4dof': {  # 6 DoF
+        'Energy0-v0': {
+            'distance_reward_weight': 5.0,
+            'ctrl_cost_weight': 0.05,
+        },
+    },
+    'VA6dof': {  # 6 DoF
+        'Energy0-v0': {
+            'distance_reward_weight': 5.0,
+            'ctrl_cost_weight': 0.05,
+        },
+    },
+    'VA8dof': {  # 6 DoF
+        'Energy0-v0': {
+            'distance_reward_weight': 5.0,
+            'ctrl_cost_weight': 0.05,#0.05
+        },
+    },
     'HalfCheetahHeavy': {  # 6 DoF
         'Energy0-v0': {
             'forward_reward_weight':1.0,
@@ -169,7 +208,46 @@ ENV_PARAMS = {
         },
 
     },
+    'HalfCheetah5dof': {  # 6 DoF
+        'Energy0-v0': {
+            'forward_reward_weight': 1.0,
+            'ctrl_cost_weight': 0.1,
+            'energy_weights': 0,
+        },
 
+    },
+    'HalfCheetah4dof': {  # 6 DoF
+        'Energy0-v0': {
+            'forward_reward_weight': 1.0,
+            'ctrl_cost_weight': 0.1,
+            'energy_weights': 0,
+        },
+
+    },
+    'HalfCheetah3doff': {  # 6 DoF
+        'Energy0-v0': {
+            'forward_reward_weight': 1.0,
+            'ctrl_cost_weight': 0.1,
+            'energy_weights': 0,
+        },
+
+    },
+    'HalfCheetah3dofb': {  # 6 DoF
+        'Energy0-v0': {
+            'forward_reward_weight': 1.0,
+            'ctrl_cost_weight': 0.1,
+            'energy_weights': 0,
+        },
+
+    },
+    'HalfCheetah2dof': {  # 6 DoF
+        'Energy0-v0': {
+            'forward_reward_weight': 1.0,
+            'ctrl_cost_weight': 0.1,
+            'energy_weights': 0,
+        },
+
+    },
     'HalfCheetah': {  # 6 DoF
         'EnergySix-v0': {
             'forward_reward_weight':1.0,
@@ -231,11 +309,19 @@ ENV_PARAMS = {
 NUM_CHECKPOINTS = 10
 
 
-def get_variant_spec_base(universe, domain, task, policy, algorithm):
+def get_variant_spec_base(universe, domain, task, policy, algorithm,num_epoch,epoch_length=DEFAULT_MAX_PATH_LENGTH,actor_size=256,critic_size=M):
+    if num_epoch is not None:
+        ALGORITHM_PARAMS_PER_DOMAIN[domain]['kwargs']['n_epochs']=num_epoch
+
     algorithm_params = deep_update(
         ALGORITHM_PARAMS_BASE,
         ALGORITHM_PARAMS_PER_DOMAIN.get(domain, {})
     )
+
+    ALGORITHM_PARAMS_ADDITIONAL[algorithm]['kwargs']['epoch_length']=epoch_length
+
+    POLICY_PARAMS_BASE[policy]['kwargs']['hidden_layer_sizes']=(actor_size,actor_size)
+
     algorithm_params = deep_update(
         algorithm_params,
         ALGORITHM_PARAMS_ADDITIONAL.get(algorithm, {})
@@ -253,7 +339,7 @@ def get_variant_spec_base(universe, domain, task, policy, algorithm):
         'Q_params': {
             'type': 'double_feedforward_Q_function',
             'kwargs': {
-                'hidden_layer_sizes': (M,M),
+                'hidden_layer_sizes': (critic_size,critic_size),#256
             }
         },
         'algorithm_params': algorithm_params,
@@ -276,7 +362,7 @@ def get_variant_spec_base(universe, domain, task, policy, algorithm):
             'type': 'SimpleSampler',
             'kwargs': {
                 'max_path_length': MAX_PATH_LENGTH_PER_DOMAIN.get(
-                    domain, DEFAULT_MAX_PATH_LENGTH),
+                    domain, epoch_length),#DEFAULT_MAX_PATH_LENGTH
                 'min_pool_size': MAX_PATH_LENGTH_PER_DOMAIN.get(
                     domain, DEFAULT_MAX_PATH_LENGTH),
                 'batch_size': 256,
@@ -337,7 +423,7 @@ def get_variant_spec(args):
             universe, domain, task, args.policy, args.algorithm)
     else:
         variant_spec = get_variant_spec_base(
-            universe, domain, task, args.policy, args.algorithm)
+            universe, domain, task, args.policy, args.algorithm,args.total_epoch,args.epoch_length,args.actor_size,args.critic_size)
 
     if args.checkpoint_replay_pool is not None:
         variant_spec['run_params']['checkpoint_replay_pool'] = (

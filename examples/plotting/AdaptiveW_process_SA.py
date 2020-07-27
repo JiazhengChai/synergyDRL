@@ -77,7 +77,14 @@ elif 'FC' in agentt:
 
 top_folder=agentt
 
-cwd=os.getcwd()
+
+file_path=os.path.abspath(os.getcwd())
+path_list=file_path.split('/')
+while path_list[-1] !="synergyDRL":
+    path_list.pop(-1)
+
+cwd="/".join(path_list)
+
 path_to_folder=cwd+'/experiments_results/Synergy/all_csv/raw_csv'
 
 final = ori_final

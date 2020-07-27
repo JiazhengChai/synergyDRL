@@ -30,16 +30,12 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/username/.mujoco/mjpro150/bin
 ### Codebase Setup
 9. git clone this codebase `synergyDRL`
 10. ```cd synergyDRL```
-11. ```conda env create -f environment.yml```
+11. ```conda env create -f updated_env.yml```
 12.  ```conda activate synergy_analysis```
 13. ```cd ..```
 14. ```pip install -e synergyDRL```
 15. ```cd synergyDRL```
 
-### (IMPORTANT) Move custom Mujoco files
-16. Inside synergyDRL folder, there is a folder named MUJOCO_FILES. Copy the contents inside 'assets' in MUJOCO_FILES folder to the 'assets' in ~/anaconda3/envs/synergy_analysis/lib/python3.6/site-packages/gym/envs/mujoco
-
-COMMAND: cp MUJOCO_FILES/assets/* ~/anaconda3/envs/synergy_analysis/lib/python3.6/site-packages/gym/envs/mujoco/assets
 
 ### Finish
 

@@ -107,6 +107,8 @@ if __name__ == '__main__':
             abrv = 'HCheavy'
         elif agent=='FullCheetah':
             abrv = 'FC'
+        else:
+            abrv = agent
 
         for experiment in os.listdir(top_path):
             exp_path=os.path.join(top_path,experiment)
