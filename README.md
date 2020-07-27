@@ -30,7 +30,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/username/.mujoco/mjpro150/bin
 ### Codebase Setup
 9. git clone this codebase `synergyDRL`
 10. ```cd synergyDRL```
-11. ```conda env create -f environment.yml```
+11. ```conda env create -f updated_env.yml```
 12.  ```conda activate synergy_analysis```
 13. ```cd ..```
 14. ```pip install -e synergyDRL```
