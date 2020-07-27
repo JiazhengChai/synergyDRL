@@ -1,7 +1,8 @@
 import numpy as np
 from gym import utils
 from gym.envs.mujoco import mujoco_env
-
+import os
+from . import path
 
 DEFAULT_CAMERA_CONFIG = {
     'distance': 4.0,
@@ -28,8 +29,9 @@ class HalfCheetahEnv(mujoco_env.MujocoEnv, utils.EzPickle):
 
         self._exclude_current_positions_from_observation = (
             exclude_current_positions_from_observation)
-
-        mujoco_env.MujocoEnv.__init__(self, xml_file, 5)
+        global path
+        mujoco_env.MujocoEnv.__init__(self, os.path.join(path, xml_file), 5)
+        #mujoco_env.MujocoEnv.__init__(self, xml_file, 5)
 
     def control_cost(self, action):
         control_cost = self._ctrl_cost_weight * np.sum(np.square(action))
@@ -144,8 +146,9 @@ class HalfCheetahHeavyEnv(mujoco_env.MujocoEnv, utils.EzPickle):
 
         self._exclude_current_positions_from_observation = (
             exclude_current_positions_from_observation)
-
-        mujoco_env.MujocoEnv.__init__(self, xml_file, 5)
+        global path
+        mujoco_env.MujocoEnv.__init__(self, os.path.join(path, xml_file), 5)
+        #mujoco_env.MujocoEnv.__init__(self, xml_file, 5)
 
     def control_cost(self, action):
         control_cost = self._ctrl_cost_weight * np.sum(np.square(action))
@@ -261,8 +264,8 @@ class FullCheetahEnv(mujoco_env.MujocoEnv, utils.EzPickle):
 
         self._exclude_current_positions_from_observation = (
             exclude_current_positions_from_observation)
-
-        mujoco_env.MujocoEnv.__init__(self, xml_file, 5)
+        global path
+        mujoco_env.MujocoEnv.__init__(self, os.path.join(path, xml_file), 5)
 
     def control_cost(self, action):
         control_cost = self._ctrl_cost_weight * np.sum(np.square(action))

@@ -1,11 +1,18 @@
 import os
 import numpy as np
 from sklearn.preprocessing import StandardScaler
+file_path=os.path.abspath(os.getcwd())
+path_list=file_path.split('/')
+while path_list[-1] !="synergyDRL":
+    path_list.pop(-1)
+
+file_path="/".join(path_list)
+
 class exp_variant():
     def __init__(self, name,
-                 action_path='./experiments_results/collected_actions/trajectory_npy/actions_npy',
-                 reward_path='./experiments_results/collected_actions/trajectory_npy/reward_energy_dict',
-                 state_path='./experiments_results/collected_actions/trajectory_npy/states_npy',
+                 action_path=file_path+'/experiments_results/collected_actions/trajectory_npy/actions_npy',
+                 reward_path=file_path+'/experiments_results/collected_actions/trajectory_npy/reward_energy_dict',
+                 state_path=file_path+'/experiments_results/collected_actions/trajectory_npy/states_npy',
                  short_name=False):
         if not short_name:
             if '_C' in name:
