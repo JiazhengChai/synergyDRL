@@ -71,7 +71,7 @@ PyYAML==5.1
 psutil==5.4.8
 pyqtwebengine==5.12
 pyqt5==5.12
-ray[rllib,debug]==0.6.1
+ray[rllib,debug,tune]==0.8.6
 redis==3.0.1
 requests==2.20.1
 rsa==3.4.2
