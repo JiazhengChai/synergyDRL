@@ -222,7 +222,7 @@ def run_example_local(example_module_name,
         num_gpus=example_args.gpus,
         resources=example_args.resources or {},
         # Tune doesn't currently support local mode
-        local_mode=False,
+        local_mode=example_args.debug,#False
         include_webui=example_args.include_webui,
         temp_dir=example_args.temp_dir)
 

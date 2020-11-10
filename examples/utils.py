@@ -230,6 +230,10 @@ def get_parser(allow_policy_list=False):
         default=DEFAULT_DOMAIN)
     parser.add_argument(
         '--task', type=str, choices=AVAILABLE_TASKS, default=DEFAULT_TASK)
+
+
+    parser.add_argument(
+        '--debug', action = 'store_true')
     parser.add_argument(
         '--gpu_choice', type=int, default=None)
 
