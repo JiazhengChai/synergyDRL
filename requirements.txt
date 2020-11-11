@@ -13,7 +13,7 @@ chardet==3.0.4
 Click==7.0
 cloudpickle==0.6.1
 colorama==0.3.9
-cryptography==2.3.1
+cryptography==3.2
 cycler==0.10.0
 Cython==0.29.1
 dask==2.3
@@ -49,7 +49,7 @@ git+https://github.com/vitchyr/multiworld.git@d76b3dae2e8cbca02924f93d6cc0239c55
 networkx==2.2
 numpy==1.16.0
 pandas==0.23.4
-Pillow==6.2.0
+Pillow==7.1.0
 plotly==1.9.6
 pluggy==0.8.0
 protobuf==3.6.1
@@ -68,7 +68,7 @@ python-dateutil==2.7.5
 pytz==2018.7
 PyWavelets==1.0.1
 PyYAML==5.1
-psutil==5.4.8
+psutil==5.6.6
 pyqtwebengine==5.12
 pyqt5==5.12
 ray[rllib,debug,tune]==0.8.6
@@ -84,14 +84,14 @@ git+https://github.com/hartikainen/serializable.git@76516385a3a716ed4a2a9ad877e2
 setproctitle==1.1.10
 six==1.12
 smmap2==2.0.5
-tensorboard==1.12.0
-tensorflow==1.12.0
+tensorboard==1.15.4
+tensorflow==1.15.4
 tensorflow-probability==0.5.0
 termcolor==1.1.0
 toolz==0.9.0
 typed-ast==1.4.0
 uritemplate==3.0.0
-urllib3==1.23
+urllib3==1.24.2
 Werkzeug==0.15.3
 mujoco-py==1.50.1.68
 
