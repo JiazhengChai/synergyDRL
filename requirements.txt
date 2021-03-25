@@ -67,7 +67,7 @@ pytest==4.0.1
 python-dateutil==2.7.5
 pytz==2018.7
 PyWavelets==1.0.1
-PyYAML==5.1
+PyYAML==5.4
 psutil==5.6.6
 pyqtwebengine==5.12
 pyqt5==5.12
