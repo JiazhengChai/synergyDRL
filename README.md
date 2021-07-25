@@ -1,4 +1,5 @@
-# Synergy analysis source code
+# Synergy analysis source code [DEPRECATED]
+This codebase is deprecated. Please visit the latest version : [synergy_analysis](https://github.com/JiazhengChai/synergy_analysis)
 
 # Our special notes
 This implementation uses Tensorflow and it is based on the library Softlearning  https://github.com/rail-berkeley/softlearning.
